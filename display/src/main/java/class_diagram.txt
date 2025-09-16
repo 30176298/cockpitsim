@@ -1,0 +1,56 @@
+classDiagram
+    class Simulation {
+    }
+    class SimConfig {
+
+    }
+    class MHDD {
+    }
+    class RadarFormat {
+    }
+
+    class StoresFormat {
+
+    }
+    class MapFormat {
+
+    }
+
+    class IDisplayable {
+        draw()
+    }
+    <<interface>> IDisplayable
+    class Format {
+        
+    }
+    <<abstract>> Format 
+    class FormatMenu {
+    }
+
+    class KeyRegime {
+    }
+    class KeyLegend {
+
+    }
+    class KeyActions {
+
+    }
+
+    class FlightModel {
+
+    }
+
+    Simulation o-- "1" SimConfig
+    Simulation *-- "3" MHDD
+    MHDD "0..1" -- "1" Format :displays
+    
+    IDisplayable <|.. Format : implements
+    
+    Format <|-- RadarFormat : extends
+    Format <|-- MapFormat : extends
+    Format <|-- StoresFormat : extends
+    Format <|-- FormatMenu : extends
+
+    KeyRegime *-- "1" KeyLegend
+    KeyRegime *-- "1" KeyActions
+    Format *-- "1" KeyRegime

@@ -1,0 +1,1 @@
+wix extension add -g WixToolset.UI.wixext/5.0.2

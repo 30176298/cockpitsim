@@ -1,0 +1,1 @@
+dir /s /b *.java > sources.txt & javac --module-path %PATH_TO_FX_JMODS% -d mods/helloworldfx @sources.txt & del sources.txt
