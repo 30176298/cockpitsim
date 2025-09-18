@@ -1,2 +1,11 @@
 display\CockpitSim.class
+display\Key$2.class
+display\MHDD.class
+display\Format.class
+display\CNST$POS.class
 module-info.class
+display\KeyLegend.class
+display\Key$1.class
+display\Key.class
+display\CNST.class
+display\DisplayObject.class
