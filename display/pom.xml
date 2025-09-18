@@ -12,6 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>21</javafx.version>
     <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+    <maven.compiler.release>24</maven.compiler.release>
   </properties>
 
   <dependencies>
@@ -29,7 +30,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>${javafx.maven.plugin.version}</version>
         <configuration>
-          <mainClass>HelloFX</mainClass>
+          <mainClass>display.CockpitSim</mainClass>
         </configuration>
       </plugin>
     </plugins>
