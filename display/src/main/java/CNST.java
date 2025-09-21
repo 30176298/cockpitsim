@@ -1,6 +1,7 @@
 package display;
 
 import javafx.geometry.Point2D;
+//import display.KeyPage;
 
 public class CNST {
     public static enum POS {
@@ -8,6 +9,14 @@ public class CNST {
       CENTRE,
       RIGHT
     }
+    
+    public static enum FORMAT {
+      BLANK,
+      RADAR,
+      NAV,
+      WEAPONS
+    }
+    
     public static Point2D POSCoords(POS pos) {
       switch(pos) {
         case LEFT:
@@ -26,4 +35,8 @@ public class CNST {
     public static final int KEY_GAP = 28;
     public static final int KEY_Y = SCREEN_SIZE + KEY_GAP;
     public static final int KEY_X = KEY_WIDTH + KEY_GAP;
+    
+    public static final String BLANK_LEGEND = "        ";
+    
+    //public static final KeyPage FORMAT_MENU = new KeyPage(this, "FORMMENU", "RDAR    ", "NAV     ", "WEAP    ");
 }

@@ -16,10 +16,13 @@ import display.Key;
 
 public abstract class DisplayObject{
   
+  //Top left coordinate
   protected Point2D home;
+  
+  protected DisplayObject parent;
   
   //Create new scene tree group to house elements
   protected Group sceneGroup = new Group();
   ObservableList groupChildren = sceneGroup.getChildren();
-    
+  
 }
