@@ -17,17 +17,24 @@ public class Key extends DisplayObject{
   private KeyLegend legend;
   public Rectangle keyBackground;
   
-  //Default empty event handlers
-  EventHandler eventHandlerPressed = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
-        keyBackground.setFill(Color.LIGHTGREY);
-      }
-    };
+  //Key colour change event handlers, default
+  EventHandler eventHandlerPressedEmpty = new EventHandler<MouseEvent>() {
+    public void handle(MouseEvent event) {
+      keyBackground.setFill(Color.LIGHTGREY);
+    }
+  };
+  EventHandler eventHandlerReleasedEmpty = new EventHandler<MouseEvent>() {
+    public void handle(MouseEvent event) {
+      keyBackground.setFill(Color.BLACK);
+    }
+  };
+  //Key event handler - for actual key actions
   EventHandler eventHandlerReleased = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
-        keyBackground.setFill(Color.BLACK);
-      }
-    };
+    public void handle(MouseEvent event) {
+      keyBackground.setFill(Color.BLACK);
+    }
+  };
+
   
   public Key(DisplayObject parent, int pos, String legendText) {
     
@@ -43,7 +50,8 @@ public class Key extends DisplayObject{
     legend = new KeyLegend(this, legendText);
     
     //Set up mouse events      
-    sceneGroup.addEventFilter(MouseEvent.MOUSE_PRESSED, eventHandlerPressed);
+    sceneGroup.addEventFilter(MouseEvent.MOUSE_PRESSED, eventHandlerPressedEmpty);
+    sceneGroup.addEventFilter(MouseEvent.MOUSE_RELEASED, eventHandlerReleasedEmpty);
     sceneGroup.addEventFilter(MouseEvent.MOUSE_RELEASED, eventHandlerReleased);
     
     //Commit new nodes to scene tree
@@ -54,26 +62,13 @@ public class Key extends DisplayObject{
     legend = new KeyLegend(this, legendText);
   }
   
-  public void setAction(EventHandler newEventHandlerPressed) {
+  public void setAction(EventHandler newEventHandlerReleased) {
     //Remove old action
-    sceneGroup.removeEventFilter(MouseEvent.MOUSE_PRESSED, eventHandlerPressed);
+    sceneGroup.removeEventFilter(MouseEvent.MOUSE_PRESSED, eventHandlerReleased);
     
-    eventHandlerPressed = newEventHandlerPressed;
-    
-    //Add new action
-    sceneGroup.addEventFilter(MouseEvent.MOUSE_PRESSED, eventHandlerPressed);
-  }
-  
-  public void setAction(EventHandler newEventHandlerPressed, EventHandler newEventHandlerReleased) {
-    //Remove old actions
-    sceneGroup.removeEventFilter(MouseEvent.MOUSE_PRESSED, eventHandlerPressed);
-    sceneGroup.removeEventFilter(MouseEvent.MOUSE_RELEASED, eventHandlerReleased);
-    
-    eventHandlerPressed = newEventHandlerPressed;
     eventHandlerReleased = newEventHandlerReleased;
     
-    //Add new actions
-    sceneGroup.addEventFilter(MouseEvent.MOUSE_PRESSED, eventHandlerPressed);
+    //Add new action
     sceneGroup.addEventFilter(MouseEvent.MOUSE_RELEASED, eventHandlerReleased);
   }
 }

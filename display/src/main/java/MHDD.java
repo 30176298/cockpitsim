@@ -29,9 +29,6 @@ public class MHDD extends DisplayObject{
     screenBackground.setFill(Color.BLACK);
     groupChildren.add(screenBackground);
     
-    //Key class will add keys to scene
-    //Key keyList[] = {new Key(this, 0), new Key(this, 1), new Key(this, 2), new Key(this, 3)};
-    
     format = new FormatBlank(this);
     format.select();
     
