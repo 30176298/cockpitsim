@@ -17,6 +17,12 @@ public class CNST {
       WEAPONS
     }
     
+     public static enum TURNING {
+      NONE,
+      LEFT,
+      RIGHT
+    }
+    
     public static Point2D POSCoords(POS pos) {
       switch(pos) {
         case LEFT:
@@ -37,6 +43,8 @@ public class CNST {
     public static final int KEY_X = KEY_WIDTH + KEY_GAP;
     
     public static final String BLANK_LEGEND = "        ";
+    
+    public static final long DELTA_TIME_CAP = 50_000_000;
     
     //public static final KeyPage FORMAT_MENU = new KeyPage(this, "FORMMENU", "RDAR    ", "NAV     ", "WEAP    ");
 }
