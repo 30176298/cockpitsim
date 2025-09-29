@@ -29,6 +29,17 @@ public class CockpitSim extends Application {
 
   @Override
   public void start(Stage stage) {
+    //Ground simulation
+    Rectangle ground = new Rectangle(0.0,  CNST.AIM_POINT.getY(), 1024.0, 1024.0);
+    ground.setFill(Color.DARKGREEN);
+    groupChildren.add(ground);
+    
+    //Circle Crosshair
+    Circle crosshair = new Circle(CNST.AIM_POINT.getX(), CNST.AIM_POINT.getY(), 30.0);
+    crosshair.setFill(Color.TRANSPARENT);
+    crosshair.setStroke(Color.GREEN);
+    groupChildren.add(crosshair);
+    
     //Dashboard
     Circle dashboard = new Circle(512, 1792, 1536, Color.DIMGREY);
     
@@ -46,7 +57,7 @@ public class CockpitSim extends Application {
     //Initialise Aircraft Data
     aircraftData = new AircraftData(this);
     stage.setTitle("Cockpit Sim");
-    scene.setFill(Color.BLACK);
+    scene.setFill(Color.LIGHTSKYBLUE);
     stage.setScene(scene);
     stage.show();
     startUpdater();

@@ -17,10 +17,16 @@ public class CNST {
       WEAPONS
     }
     
-     public static enum TURNING {
+     public static enum ROLLING {
       NONE,
       LEFT,
       RIGHT
+    }
+    
+    public static enum PITCHING {
+      NONE,
+      UP,
+      DOWN
     }
     
     public static Point2D POSCoords(POS pos) {
@@ -45,6 +51,8 @@ public class CNST {
     public static final String BLANK_LEGEND = "        ";
     
     public static final long DELTA_TIME_CAP = 50_000_000;
+    
+    public static final Point2D AIM_POINT = new Point2D(512, 120);
     
     //public static final KeyPage FORMAT_MENU = new KeyPage(this, "FORMMENU", "RDAR    ", "NAV     ", "WEAP    ");
 }

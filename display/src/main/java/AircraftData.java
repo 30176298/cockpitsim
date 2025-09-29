@@ -10,6 +10,7 @@ import javafx.scene.shape.Line;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.animation.AnimationTimer;
@@ -19,40 +20,35 @@ import javafx.scene.input.KeyCode;
 import display.CNST;
 import display.KeyPage;
 import display.DisplayObject;
+import display.DebugView;
 
 public class AircraftData{
   
-  private Point2D pos = new Point2D(512.0, 512.0);
-  private Point2D vel;
-  private long lastNow = 0;
-  private double deltaTime = 0;
-  private CockpitSim parent;
-  private CNST.TURNING turning = CNST.TURNING.NONE;
+  protected Point3D pos = new Point3D(512.0, 512.0, 0.0);
+  protected Point3D vel;
+  protected Point3D rightVect;
+  protected Point3D upVect;
+  protected long lastNow = 0;
+  protected double deltaTime = 0;
+  protected CockpitSim parent;
+  protected CNST.ROLLING rolling = CNST.ROLLING.NONE;
+  protected CNST.PITCHING pitching = CNST.PITCHING.NONE;
   
-  //Testing graphics objects
-  private Rectangle simRect;
-  private Line simLine;
+  private DebugView debugView = new DebugView(this);
   
   public AircraftData(CockpitSim parent) {
     this.parent = parent;
-    vel = new Point2D(0, 1);
+    //Initial velocity
+    vel = new Point3D(0.0, 1.0, 0.0);
+    rightVect = new Point3D(-vel.getY(), vel.getX(), 0.0); 
+    upVect = vel.crossProduct(rightVect).multiply(-1.0);
     
-    //Testing graphics objects
-    simRect = new Rectangle(512, 512, 20, 40);
-    simRect.setFill(Color.RED);
+    debugView.setUpScene();
     
-    simLine = new Line(512.0, 512.0, 0.0, 0.0);
-    //simLine.setFill(Color.GREEN);
-    simLine.setStroke(Color.GREEN);
-    simLine.setStrokeWidth(10.0);
-    
-    parent.groupChildren.add(simRect);
-    parent.groupChildren.add(simLine);
-  
     startSimulation();
   }
   
-  public Point2D getPos() {
+  public Point3D getPos() {
     return pos;
   }
   
@@ -69,28 +65,44 @@ public class AircraftData{
           pos = pos.add(vel.multiply(deltaTime / 10_000_000));
           
           //Debug
-          System.out.println("(" + pos.getX() + ", " + pos.getY() + ")" + "  -  " + deltaTime);
+          System.out.println("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")" + "  -  " + deltaTime);
           
           //Handle updating aircraft heading
-          Point2D rightVect = new Point2D(vel.getY(), -vel.getX()).multiply(deltaTime / 100_000_000); //Small right vector
-          switch(turning) {
-            case CNST.TURNING.LEFT:
-              vel = vel.add(rightVect).normalize();
+          // rightVect = new Point3D(vel.getY(), -vel.getX(), 0.0); //Right vector
+          
+          //Find upVector
+          //upVect = vel.crossProduct(rightVect).multiply(-1.0);
+          
+          Point3D rollingVect = upVect.multiply(deltaTime / 100_000_000);
+          Point3D pitchingVect = vel.multiply(deltaTime / 100_000_000);
+          Point3D pitchingVectVel = upVect.multiply(-deltaTime / 100_000_000);
+          
+          switch(rolling) {
+            case CNST.ROLLING.LEFT:
+              rightVect = rightVect.add(rollingVect).normalize();
+              upVect = vel.crossProduct(rightVect).multiply(-1.0);
               break;
-            case CNST.TURNING.RIGHT:
-              vel = vel.subtract(rightVect).normalize();
+            case CNST.ROLLING.RIGHT:
+              rightVect = rightVect.subtract(rollingVect).normalize();
+              upVect = vel.crossProduct(rightVect).multiply(-1.0);
               break;
           }
-          
-          //Move testing rectangle
-          simRect.setX(pos.getX());
-          simRect.setY(pos.getY());
-          //Move testing line
-          simLine.setEndX(512.0 + (vel.getX() * 200));
-          simLine.setEndY(512.0 + (vel.getY() * 200));
+          switch(pitching) {
+            case CNST.PITCHING.UP:
+              upVect = upVect.subtract(pitchingVect).normalize();
+              vel = vel.subtract(pitchingVectVel).normalize();
+              break;
+            case CNST.PITCHING.DOWN:
+              upVect = upVect.add(pitchingVect).normalize();
+              vel = vel.add(pitchingVectVel).normalize();
+              break;
+          }
+        
         }
         //Update time record to allow calculating delta time
         lastNow = now;
+        
+        debugView.update();
       }
     };
     updater.start();
@@ -100,10 +112,16 @@ public class AircraftData{
       public void handle(KeyEvent event) {
         switch(event.getCode()) {
           case KeyCode.LEFT:
-            turning = CNST.TURNING.LEFT;
+            rolling = CNST.ROLLING.LEFT;
             break;
           case KeyCode.RIGHT:
-            turning = CNST.TURNING.RIGHT;
+            rolling = CNST.ROLLING.RIGHT;
+            break;
+          case KeyCode.UP:
+            pitching = CNST.PITCHING.DOWN;
+            break;
+          case KeyCode.DOWN:
+            pitching = CNST.PITCHING.UP;
             break;
         }
       }
@@ -112,10 +130,16 @@ public class AircraftData{
       public void handle(KeyEvent event) {
         switch(event.getCode()) {
           case KeyCode.LEFT:
-            turning = CNST.TURNING.NONE;
+            rolling = CNST.ROLLING.NONE;
             break;
           case KeyCode.RIGHT:
-            turning = CNST.TURNING.NONE;
+            rolling = CNST.ROLLING.NONE;
+            break;
+          case KeyCode.UP:
+            pitching = CNST.PITCHING.NONE;
+            break;
+          case KeyCode.DOWN:
+            pitching = CNST.PITCHING.NONE;
             break;
         }
       }
