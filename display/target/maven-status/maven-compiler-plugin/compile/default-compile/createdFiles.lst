@@ -22,6 +22,7 @@ display\CNST$TURNING.class
 display\Key$1.class
 display\AircraftData$4.class
 display\FormatWeapons.class
+display\FormatRadar$1.class
 display\CockpitSim.class
 display\Format$2.class
 display\KeyLegend.class
