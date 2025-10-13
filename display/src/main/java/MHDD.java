@@ -18,8 +18,10 @@ public class MHDD extends DisplayObject{
   
   protected CNST.FORMAT selectedFormat = CNST.FORMAT.BLANK;
   private Format format;
+  protected CockpitSim parent;
   
   public MHDD(CockpitSim parent, CNST.POS pos) {
+    this.parent = parent;
     
     //Set MHDD Coordinates based on position
     home = CNST.POSCoords(pos);
