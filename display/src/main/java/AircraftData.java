@@ -16,9 +16,10 @@ import javafx.scene.text.Font;
 import javafx.animation.AnimationTimer;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 
 import display.CNST;
-import display.KeyPage;
 import display.DisplayObject;
 import display.DebugView;
 
@@ -33,14 +34,19 @@ public class AircraftData{
   protected CockpitSim parent;
   protected CNST.ROLLING rolling = CNST.ROLLING.NONE;
   protected CNST.PITCHING pitching = CNST.PITCHING.NONE;
+  protected double rollAngle = 0.0;
+  protected Rectangle ground;
+  protected Rotate groundRotate = new Rotate(0.0, CNST.AIM_POINT.getX(), CNST.AIM_POINT.getY());
+  protected Translate groundTranslate = new Translate();
   
   private DebugView debugView = new DebugView(this);
   
   public AircraftData(CockpitSim parent) {
     this.parent = parent;
+    this.ground = parent.ground;
     //Initial velocity
     vel = new Point3D(0.0, 1.0, 0.0);
-    rightVect = new Point3D(-vel.getY(), vel.getX(), 0.0); 
+    rightVect = new Point3D(vel.getY(), -vel.getX(), 0.0);
     upVect = vel.crossProduct(rightVect).multiply(-1.0);
     
     debugView.setUpScene();
@@ -50,6 +56,10 @@ public class AircraftData{
   
   public Point3D getPos() {
     return pos;
+  }
+
+  public Point3D getVel() {
+    return vel;
   }
   
   private void startSimulation() {
@@ -64,37 +74,38 @@ public class AircraftData{
           //Handle updating aircraft position
           pos = pos.add(vel.multiply(deltaTime / 10_000_000));
           
-          //Debug
-          System.out.println("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")" + "  -  " + deltaTime);
-          
-          //Handle updating aircraft heading
-          // rightVect = new Point3D(vel.getY(), -vel.getX(), 0.0); //Right vector
-          
-          //Find upVector
-          //upVect = vel.crossProduct(rightVect).multiply(-1.0);
-          
-          Point3D rollingVect = upVect.multiply(deltaTime / 100_000_000);
-          Point3D pitchingVect = vel.multiply(deltaTime / 100_000_000);
-          Point3D pitchingVectVel = upVect.multiply(-deltaTime / 100_000_000);
-          
+          //Find roll angle
+          double rollAngle = getRollAngle();
+
+          //Find pitch angle
+          double pitchAngle = -1.0 * (vel.angle(CNST.WORLD_UP) - 90.0);
+
+          //Update horizon graphics
+          groundRotate.setAngle(-rollAngle);
+          groundTranslate.setY(pitchAngle * 16.0);
+
+          //Create small vector to nudge aircraft by
+          Point3D rollingVect = upVect.multiply(deltaTime / 200_000_000);
+          Point3D pitchingVect = vel.multiply(deltaTime / 400_000_000);
+
           switch(rolling) {
-            case CNST.ROLLING.LEFT:
+            case LEFT:
               rightVect = rightVect.add(rollingVect).normalize();
               upVect = vel.crossProduct(rightVect).multiply(-1.0);
               break;
-            case CNST.ROLLING.RIGHT:
+            case RIGHT:
               rightVect = rightVect.subtract(rollingVect).normalize();
               upVect = vel.crossProduct(rightVect).multiply(-1.0);
               break;
           }
           switch(pitching) {
-            case CNST.PITCHING.UP:
+            case UP:
               upVect = upVect.subtract(pitchingVect).normalize();
-              vel = vel.subtract(pitchingVectVel).normalize();
+              vel = rightVect.crossProduct(upVect).multiply(-1.0);
               break;
-            case CNST.PITCHING.DOWN:
+            case DOWN:
               upVect = upVect.add(pitchingVect).normalize();
-              vel = vel.add(pitchingVectVel).normalize();
+              vel = rightVect.crossProduct(upVect).multiply(-1.0);
               break;
           }
         
@@ -111,16 +122,16 @@ public class AircraftData{
     EventHandler keyboardEventPressed = new EventHandler<KeyEvent>() {
       public void handle(KeyEvent event) {
         switch(event.getCode()) {
-          case KeyCode.LEFT:
+          case LEFT:
             rolling = CNST.ROLLING.LEFT;
             break;
-          case KeyCode.RIGHT:
+          case RIGHT:
             rolling = CNST.ROLLING.RIGHT;
             break;
-          case KeyCode.UP:
+          case UP:
             pitching = CNST.PITCHING.DOWN;
             break;
-          case KeyCode.DOWN:
+          case DOWN:
             pitching = CNST.PITCHING.UP;
             break;
         }
@@ -129,16 +140,16 @@ public class AircraftData{
     EventHandler keyboardEventReleased = new EventHandler<KeyEvent>() {
       public void handle(KeyEvent event) {
         switch(event.getCode()) {
-          case KeyCode.LEFT:
+          case LEFT:
             rolling = CNST.ROLLING.NONE;
             break;
-          case KeyCode.RIGHT:
+          case RIGHT:
             rolling = CNST.ROLLING.NONE;
             break;
-          case KeyCode.UP:
+          case UP:
             pitching = CNST.PITCHING.NONE;
             break;
-          case KeyCode.DOWN:
+          case DOWN:
             pitching = CNST.PITCHING.NONE;
             break;
         }
@@ -146,5 +157,21 @@ public class AircraftData{
     };
     parent.scene.addEventFilter(KeyEvent.KEY_PRESSED, keyboardEventPressed);
     parent.scene.addEventFilter(KeyEvent.KEY_RELEASED, keyboardEventReleased);
+
+    //Control graphics view out window
+    ground.getTransforms().add(groundRotate);
+    ground.getTransforms().add(groundTranslate);
   }
+
+    private double getRollAngle() {
+      //Determine right wing high
+      boolean negativeRoll = rightVect.dotProduct(CNST.WORLD_UP) > rightVect.dotProduct(CNST.WORLD_DOWN);
+      //upVector traces sine wave path during pitching 360
+      double rollAngle = upVect.angle(CNST.WORLD_UP);
+      //Correct for roll left vs roll right
+      if (negativeRoll) rollAngle = -rollAngle;
+      return rollAngle;
+  }
+
+
 }

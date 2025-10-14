@@ -33,9 +33,6 @@ public class DebugView{
   
   //Testing graphics objects
   private Rectangle simRect;
-  // private Line simLine;
-  // private Line simRightLine;
-  // private Line simUpLine;
   
   private ThreeAxisView topDown = new ThreeAxisView(new Point2D(256.0, 256.0));
   private ThreeAxisView fromRight = new ThreeAxisView(new Point2D(768.0, 256.0));
@@ -54,6 +51,7 @@ public class DebugView{
     public Line forward;
     public Line right;
     public Line up;
+    public Line worldDown;
     public Point2D centre;
     private CockpitSim sim;
     
