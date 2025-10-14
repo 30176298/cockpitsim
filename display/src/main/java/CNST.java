@@ -1,6 +1,7 @@
 package display;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 //import display.KeyPage;
 
 public class CNST {
@@ -53,6 +54,9 @@ public class CNST {
     public static final long DELTA_TIME_CAP = 50_000_000;
     
     public static final Point2D AIM_POINT = new Point2D(512, 120);
+
+    public static final Point3D WORLD_UP = new Point3D(0.0, 0.0, 1.0);
+    public static final Point3D WORLD_DOWN = new Point3D(0.0, 0.0, -1.0);
     
     //public static final KeyPage FORMAT_MENU = new KeyPage(this, "FORMMENU", "RDAR    ", "NAV     ", "WEAP    ");
 }

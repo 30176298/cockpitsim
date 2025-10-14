@@ -26,18 +26,19 @@ public class CockpitSim extends Application {
   protected ObservableList groupChildren = root.getChildren();
   protected Scene scene;
   protected AircraftData aircraftData;
+  protected Rectangle ground;
 
   @Override
   public void start(Stage stage) {
     //Ground simulation
-    Rectangle ground = new Rectangle(0.0,  CNST.AIM_POINT.getY(), 1024.0, 1024.0);
+    ground = new Rectangle(-512.0,  CNST.AIM_POINT.getY(), 2048.0, 2048.0);
     ground.setFill(Color.DARKGREEN);
     groupChildren.add(ground);
     
     //Circle Crosshair
     Circle crosshair = new Circle(CNST.AIM_POINT.getX(), CNST.AIM_POINT.getY(), 30.0);
     crosshair.setFill(Color.TRANSPARENT);
-    crosshair.setStroke(Color.GREEN);
+    crosshair.setStroke(Color.WHITE);
     groupChildren.add(crosshair);
     
     //Dashboard
