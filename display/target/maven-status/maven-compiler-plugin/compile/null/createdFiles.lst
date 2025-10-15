@@ -13,6 +13,7 @@ display/FormatWeapons.class
 module-info.class
 display/Key$1.class
 display/EnvData.class
+display/EnvData$1.class
 display/MHDD.class
 display/Format$1.class
 display/CNST$FORMAT.class

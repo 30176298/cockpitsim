@@ -91,8 +91,6 @@ public class AircraftData{
           groundRotate.setAngle(-rollAngle);
           groundTranslate.setY(pitchAngle * 16.0);
 
-          System.out.println("" + getHeading());
-
           //Create small vector to nudge aircraft by
           Point3D rollingVect = upVect.multiply(deltaTime / 200_000_000);
           Point3D pitchingVect = vel.multiply(deltaTime / 400_000_000);

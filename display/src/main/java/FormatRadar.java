@@ -33,7 +33,8 @@ public class FormatRadar extends Format{
   private long lastNow = 0;
   private long deltaTime = 0;
   Text blankText = new Text();
-  private ArrayList<Point3D> bogies = new ArrayList<Point3D>();
+  private ArrayList<Point3D> bogies;
+  private ArrayList<Point3D> screenBogies = new ArrayList<Point3D>();
   private AircraftData aircraftData;
   private Point3D previousAircraftPos;
   
@@ -44,20 +45,18 @@ public class FormatRadar extends Format{
   
   public FormatRadar(MHDD parent) {
     this.parent = parent;
+    this.bogies = parent.parent.bogies;
     home = parent.home;
     this.aircraftData = parent.parent.aircraftData;
     this.previousAircraftPos = aircraftData.getPos();
     
     //create radar display
     Point3D circleCentre = new Point3D((home.getX() + CNST.SCREEN_SIZE / 2), (home.getY() + CNST.SCREEN_SIZE / 2), 0);
-    
-    //temp vals until real bogies given
-    bogies.add(new Point3D((circleCentre.getX() + 40), (circleCentre.getY() - 30), 0));
-    bogies.add(new Point3D((circleCentre.getX() - 20), (circleCentre.getY() + 35), 0));
-    bogies.add(new Point3D((circleCentre.getX() + 60), (circleCentre.getY() + 25), 0));
-    bogies.add(new Point3D((circleCentre.getX() - 30), (circleCentre.getY() + 20), 0));
-    bogies.add(new Point3D((circleCentre.getX() + 15), (circleCentre.getY() - 60), 0));
-    bogies.add(new Point3D((circleCentre.getX() - 30), (circleCentre.getY() - 30), 0));
+
+    for (int i = 0; i < bogies.size(); i++) {
+      Point3D tempBogey = new Point3D(bogies.get(i).getX() + 512.0, bogies.get(i).getY() + 442.0, 0.0);
+      screenBogies.add(i, tempBogey);
+    }
     
     setUpKeys();
     
@@ -122,7 +121,7 @@ public class FormatRadar extends Format{
     Point3D bogey;
 
     for (int i = 0; i < bogies.size(); i++) {
-      bogey = bogies.get(i);
+      bogey = screenBogies.get(i);
       double bogeyX = bogey.getX();
       double bogeyY = bogey.getY();
       
@@ -174,8 +173,8 @@ public class FormatRadar extends Format{
     
     //moves bogies relative to aircraft
     for (int i = 0; i < bogies.size(); i++) {
-      Point3D updatedBogey = bogies.get(i).subtract(scaledDelta);
-      bogies.set(i, updatedBogey);
+      Point3D updatedBogey = screenBogies.get(i).add(scaledDelta);
+      screenBogies.set(i, updatedBogey);
     }
     
     previousAircraftPos = currentPos;

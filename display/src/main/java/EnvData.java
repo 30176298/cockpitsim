@@ -18,11 +18,31 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import java.util.ArrayList;
 
 import display.CNST;
 import display.DisplayObject;
 
 public class EnvData{
+
+  private CockpitSim parent;
+  private ArrayList<Point3D> bogies;
+
+  public EnvData(CockpitSim parent) {
+    this.parent = parent;
+    this.bogies = parent.bogies;
+    startSimulation();
+  }
+
+  private void startSimulation() {
+    //Add updater to handle updating data each frame
+    AnimationTimer updater = new AnimationTimer() {
+      public void handle(long now) {
+        System.out.println("" + bogies.get(0).getX());
+      }
+    };
+    updater.start();
+  }
 
 
 }
