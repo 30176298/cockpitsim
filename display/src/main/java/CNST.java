@@ -57,6 +57,8 @@ public class CNST {
 
     public static final Point3D WORLD_UP = new Point3D(0.0, 0.0, 1.0);
     public static final Point3D WORLD_DOWN = new Point3D(0.0, 0.0, -1.0);
+    public static final Point3D NORTH = new Point3D(0.0, 1.0, 0.0);
+    public static final Point3D EAST = new Point3D(1.0, 0.0, 0.0);
     
     //public static final KeyPage FORMAT_MENU = new KeyPage(this, "FORMMENU", "RDAR    ", "NAV     ", "WEAP    ");
 }

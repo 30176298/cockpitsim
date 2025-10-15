@@ -30,5 +30,6 @@ display/FormatNav.class
 display/KeyPage.class
 display/AircraftData$2.class
 display/CockpitSim$1.class
+display/FormatRadar$1.class
 display/AircraftData$4.class
 display/Format$2.class

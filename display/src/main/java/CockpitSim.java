@@ -35,11 +35,11 @@ public class CockpitSim extends Application {
     ground.setFill(Color.DARKGREEN);
     groupChildren.add(ground);
     
-    //Circle Crosshair
-    Circle crosshair = new Circle(CNST.AIM_POINT.getX(), CNST.AIM_POINT.getY(), 30.0);
-    crosshair.setFill(Color.TRANSPARENT);
-    crosshair.setStroke(Color.WHITE);
-    groupChildren.add(crosshair);
+    //Circle Reticule
+    Circle reticule = new Circle(CNST.AIM_POINT.getX(), CNST.AIM_POINT.getY(), 30.0);
+    reticule.setFill(Color.TRANSPARENT);
+    reticule.setStroke(Color.WHITE);
+    groupChildren.add(reticule);
     
     //Dashboard
     Circle dashboard = new Circle(512, 1792, 1536, Color.DIMGREY);

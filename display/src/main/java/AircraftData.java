@@ -49,7 +49,7 @@ public class AircraftData{
     rightVect = new Point3D(vel.getY(), -vel.getX(), 0.0);
     upVect = vel.crossProduct(rightVect).multiply(-1.0);
     
-    debugView.setUpScene();
+    //debugView.setUpScene();
     
     startSimulation();
   }
@@ -60,6 +60,12 @@ public class AircraftData{
 
   public Point3D getVel() {
     return vel;
+  }
+
+  public Point2D getHeading() {
+    double heading = vel.angle(CNST.NORTH);
+    if (vel.dotProduct(CNST.EAST) < 0.0) heading *= -1.0;
+    return heading;
   }
   
   private void startSimulation() {
