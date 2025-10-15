@@ -62,9 +62,10 @@ public class AircraftData{
     return vel;
   }
 
-  public Point2D getHeading() {
-    double heading = vel.angle(CNST.NORTH);
-    if (vel.dotProduct(CNST.EAST) < 0.0) heading *= -1.0;
+  public double getHeading() {
+    Point3D xyVel = new Point3D (vel.getX(), vel.getY(), 0.0);
+    double heading = xyVel.angle(CNST.NORTH);
+    if (xyVel.dotProduct(CNST.EAST) < 0.0) heading = 360 - heading;
     return heading;
   }
   
@@ -89,6 +90,8 @@ public class AircraftData{
           //Update horizon graphics
           groundRotate.setAngle(-rollAngle);
           groundTranslate.setY(pitchAngle * 16.0);
+
+          System.out.println("" + getHeading());
 
           //Create small vector to nudge aircraft by
           Point3D rollingVect = upVect.multiply(deltaTime / 200_000_000);
