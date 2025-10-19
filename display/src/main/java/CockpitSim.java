@@ -36,14 +36,17 @@ public class CockpitSim extends Application {
   @Override
   public void start(Stage stage) {
 
+    //Create scene with root node
+    scene = new Scene(root, 1024, 1024);
+
     //temp vals until real bogies given
     Point3D circleCentre = new Point3D(0.0, 0.0, 0.0);
-    bogies.add(new Point3D((circleCentre.getX() + 40), (circleCentre.getY() - 30), 0));
+    bogies.add(new Point3D((circleCentre.getX() - 10), (circleCentre.getY() + 70), 0));
     bogies.add(new Point3D((circleCentre.getX() - 20), (circleCentre.getY() + 35), 0));
     bogies.add(new Point3D((circleCentre.getX() + 60), (circleCentre.getY() + 25), 0));
     bogies.add(new Point3D((circleCentre.getX() - 30), (circleCentre.getY() + 20), 0));
-    bogies.add(new Point3D((circleCentre.getX() + 15), (circleCentre.getY() - 60), 0));
-    bogies.add(new Point3D((circleCentre.getX() - 30), (circleCentre.getY() - 30), 0));
+    bogies.add(new Point3D((circleCentre.getX() + 0), (circleCentre.getY() + 200), 0));
+    bogies.add(new Point3D((circleCentre.getX() - 0), (circleCentre.getY() + 100), 0));
 
     //Ground simulation
     ground = new Rectangle(-512.0,  CNST.AIM_POINT.getY(), 2048.0, 2048.0);
@@ -56,25 +59,22 @@ public class CockpitSim extends Application {
     reticule.setStroke(Color.WHITE);
     groupChildren.add(reticule);
     
-    //Dashboard
-    Circle dashboard = new Circle(512, 1792, 1536, Color.DIMGREY);
-    
-    //Add Dashboard to scene
-    groupChildren.add(dashboard);
-    
-    //Create and add elements to scene tree
-    MHDD LeftMHDD = new MHDD(this, CNST.POS.LEFT);
-    MHDD CentreMHDD = new MHDD(this, CNST.POS.CENTRE);
-    MHDD RightMHDD = new MHDD(this, CNST.POS.RIGHT);    
-
-    //Create scene using assembled scene tree
-    scene = new Scene(root, 1024, 1024);
-    
     //Initialise Aircraft Data
     aircraftData = new AircraftData(this);
 
     //Initialise Environment Data
     envData = new EnvData(this);
+
+    //Dashboard
+    Circle dashboard = new Circle(512, 1792, 1536, Color.DIMGREY);
+
+    //Add Dashboard to scene
+    groupChildren.add(dashboard);
+
+    //Create and add elements to scene tree
+    MHDD LeftMHDD = new MHDD(this, CNST.POS.LEFT);
+    MHDD CentreMHDD = new MHDD(this, CNST.POS.CENTRE);
+    MHDD RightMHDD = new MHDD(this, CNST.POS.RIGHT);
 
     stage.setTitle("Cockpit Sim");
     scene.setFill(Color.LIGHTSKYBLUE);
