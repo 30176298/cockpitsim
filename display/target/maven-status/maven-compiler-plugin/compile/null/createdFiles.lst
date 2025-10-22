@@ -15,7 +15,6 @@ display\Format.class
 module-info.class
 display\CockpitSim$1.class
 display\Format$3.class
-display\EnvData$2.class
 display\DebugView.class
 display\MHDD$1.class
 display\Key.class

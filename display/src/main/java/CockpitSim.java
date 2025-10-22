@@ -78,15 +78,6 @@ public class CockpitSim extends Application {
     MHDD CentreMHDD = new MHDD(this, CNST.POS.CENTRE);
     MHDD RightMHDD = new MHDD(this, CNST.POS.RIGHT); 
 
-    //Create scene using assembled scene tree
-    scene = new Scene(root, 1024, 1024);
-    
-    //Initialise Aircraft Data
-    aircraftData = new AircraftData(this);
-
-    //Initialise Environment Data
-    envData = new EnvData(this);
-
     //intialise compass
     compass = new FormatCompass(this);   
 
