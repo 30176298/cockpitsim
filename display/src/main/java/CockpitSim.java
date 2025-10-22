@@ -37,6 +37,9 @@ public class CockpitSim extends Application {
   @Override
   public void start(Stage stage) {
 
+    //Create scene with root node
+    scene = new Scene(root, 1024, 1024);
+
     //temp vals until real bogies given
     Point3D radarCentre = new Point3D(0.0, 0.0, 0.0);
     //now in metres
@@ -58,12 +61,18 @@ public class CockpitSim extends Application {
     reticule.setStroke(Color.WHITE);
     groupChildren.add(reticule);
     
+    //Initialise Aircraft Data
+    aircraftData = new AircraftData(this);
+
+    //Initialise Environment Data
+    envData = new EnvData(this);
+
     //Dashboard
     Circle dashboard = new Circle(512, 1792, 1536, Color.DIMGREY);
-    
+
     //Add Dashboard to scene
     groupChildren.add(dashboard);
-    
+
     //Create and add elements to scene tree
     MHDD LeftMHDD = new MHDD(this, CNST.POS.LEFT);
     MHDD CentreMHDD = new MHDD(this, CNST.POS.CENTRE);

@@ -25,7 +25,7 @@ import display.DebugView;
 
 public class AircraftData{
   
-  protected Point3D pos = new Point3D(512.0, 512.0, 0.0);
+  protected Point3D pos = new Point3D(0.0, 0.0, 0.0);
   protected Point3D vel;
   protected Point3D rightVect;
   protected Point3D upVect;
@@ -79,7 +79,7 @@ public class AircraftData{
           deltaTime = Math.min(deltaTime, CNST.DELTA_TIME_CAP);
           
           //Handle updating aircraft position
-          pos = pos.add(vel.multiply(deltaTime / 10_000_000));
+          pos = pos.add(vel.multiply(deltaTime / 50_000_000));
           
           //Find roll angle
           double rollAngle = getRollAngle();
