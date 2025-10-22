@@ -28,6 +28,7 @@ public class CockpitSim extends Application {
   protected Scene scene;
   protected AircraftData aircraftData;
   protected EnvData envData;
+  protected FormatCompass compass;
   protected Rectangle ground;
 
   //Enemy coordinate array
@@ -37,13 +38,14 @@ public class CockpitSim extends Application {
   public void start(Stage stage) {
 
     //temp vals until real bogies given
-    Point3D circleCentre = new Point3D(0.0, 0.0, 0.0);
-    bogies.add(new Point3D((circleCentre.getX() + 40), (circleCentre.getY() - 30), 0));
-    bogies.add(new Point3D((circleCentre.getX() - 20), (circleCentre.getY() + 35), 0));
-    bogies.add(new Point3D((circleCentre.getX() + 60), (circleCentre.getY() + 25), 0));
-    bogies.add(new Point3D((circleCentre.getX() - 30), (circleCentre.getY() + 20), 0));
-    bogies.add(new Point3D((circleCentre.getX() + 15), (circleCentre.getY() - 60), 0));
-    bogies.add(new Point3D((circleCentre.getX() - 30), (circleCentre.getY() - 30), 0));
+    Point3D radarCentre = new Point3D(0.0, 0.0, 0.0);
+    //now in metres
+    bogies.add(new Point3D((radarCentre.getX() + 2400), (radarCentre.getY() - 3300), 0));
+    bogies.add(new Point3D((radarCentre.getX() - 1200), (radarCentre.getY() + 3350), 0));
+    bogies.add(new Point3D((radarCentre.getX() + 2600), (radarCentre.getY() + 3250), 0));
+    bogies.add(new Point3D((radarCentre.getX() - 2300), (radarCentre.getY() + 2100), 0));
+    bogies.add(new Point3D((radarCentre.getX() + 4150), (radarCentre.getY() - 3600), 0));
+    bogies.add(new Point3D((radarCentre.getX() - 4300), (radarCentre.getY() - 2300), 0));
 
     //Ground simulation
     ground = new Rectangle(-512.0,  CNST.AIM_POINT.getY(), 2048.0, 2048.0);
@@ -65,7 +67,7 @@ public class CockpitSim extends Application {
     //Create and add elements to scene tree
     MHDD LeftMHDD = new MHDD(this, CNST.POS.LEFT);
     MHDD CentreMHDD = new MHDD(this, CNST.POS.CENTRE);
-    MHDD RightMHDD = new MHDD(this, CNST.POS.RIGHT);    
+    MHDD RightMHDD = new MHDD(this, CNST.POS.RIGHT); 
 
     //Create scene using assembled scene tree
     scene = new Scene(root, 1024, 1024);
@@ -75,6 +77,9 @@ public class CockpitSim extends Application {
 
     //Initialise Environment Data
     envData = new EnvData(this);
+
+    //intialise compass
+    compass = new FormatCompass(this);   
 
     stage.setTitle("Cockpit Sim");
     scene.setFill(Color.LIGHTSKYBLUE);

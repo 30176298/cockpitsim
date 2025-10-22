@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
+import javafx.scene.transform.Rotate;
 
 import display.AircraftData;
 import display.CNST;
@@ -30,6 +31,7 @@ import display.DisplayObject;
 
 public class FormatRadar extends Format{
   private double currentAngle = 0;
+  private Point3D circleCentre;
   private long lastNow = 0;
   private long deltaTime = 0;
   Text blankText = new Text();
@@ -37,6 +39,7 @@ public class FormatRadar extends Format{
   private ArrayList<Point3D> screenBogies = new ArrayList<Point3D>();
   private AircraftData aircraftData;
   private Point3D previousAircraftPos;
+  private ArrayList<Circle> activeBlips = new ArrayList<Circle>();
   
   //radar scaling consts
   private final double RADAR_RANGE_METERS = 5000.0;
@@ -51,11 +54,21 @@ public class FormatRadar extends Format{
     this.previousAircraftPos = aircraftData.getPos();
     
     //create radar display
-    Point3D circleCentre = new Point3D((home.getX() + CNST.SCREEN_SIZE / 2), (home.getY() + CNST.SCREEN_SIZE / 2), 0);
+    circleCentre = new Point3D(
+      (home.getX() + CNST.SCREEN_SIZE / 2),
+      (home.getY() + CNST.SCREEN_SIZE / 2),
+      0
+    );
 
     for (int i = 0; i < bogies.size(); i++) {
-      Point3D tempBogey = new Point3D(bogies.get(i).getX() + 512.0, bogies.get(i).getY() + 442.0, 0.0);
-      screenBogies.add(i, tempBogey);
+      Point3D worldBogey = bogies.get(i);
+      Point3D relativePos = worldBogey.subtract(previousAircraftPos);
+      Point3D screenPos = new Point3D(
+        circleCentre.getX() + relativePos.getX() * SCALE_FACTOR,
+        circleCentre.getY() - relativePos.getY() * SCALE_FACTOR,
+        0.0
+      );
+      screenBogies.add(screenPos);
     }
     
     setUpKeys();
@@ -71,7 +84,7 @@ public class FormatRadar extends Format{
     groupChildren.add(radarCircle);     
     
     double radius = 120;
-    double radarRotationSpeed = Math.toRadians(180);
+    double radarRotationSpeed = Math.toRadians(270);
 
     //create radar line
     Line radarLine = new Line();
@@ -93,6 +106,8 @@ public class FormatRadar extends Format{
                 double deltaSeconds = deltaTime / 1_000_000_000.0;
                 currentAngle += radarRotationSpeed * deltaSeconds;
                 
+                //bogies = parent.parent.getBogies();
+
                 if (currentAngle > Math.PI * 2) {
                     currentAngle -= Math.PI * 2;
                 }
@@ -103,8 +118,39 @@ public class FormatRadar extends Format{
                 radarLine.setEndX(x);
                 radarLine.setEndY(y);
 
-                updateRelCoords(bogies); 
-                scanForBogies(radarLine, circleCentre, bogies);
+                updateRelCoords(screenBogies);
+
+                // Get aircraft heading for rotation using Point3D.angle()
+                Point3D velocity = aircraftData.getVel();
+                Point3D xyVel = new Point3D(velocity.getX(), velocity.getY(), 0.0);
+                Point3D north = CNST.NORTH;
+                double heading = Math.toRadians(xyVel.angle(north));
+                Point3D east = CNST.EAST;
+                if (xyVel.dotProduct(east) < 0.0) {
+                  heading = -heading;
+                }
+
+                for (int i = 0; i < screenBogies.size(); i++) {
+                  Point3D bogey = screenBogies.get(i);
+                  
+                  // Get position relative to radar center
+                  double relX = bogey.getX() - circleCentre.getX();
+                  double relY = bogey.getY() - circleCentre.getY();
+                  
+                  // Rotate around radar center based on aircraft heading
+                  double rotatedX = relX * Math.cos(-heading) - relY * Math.sin(-heading);
+                  double rotatedY = relX * Math.sin(-heading) + relY * Math.cos(-heading);
+                  
+                  Point3D rotatedBogey = new Point3D(
+                    circleCentre.getX() + rotatedX,
+                    circleCentre.getY() + rotatedY,
+                    0
+                  );
+                  
+                  scanForBogies(radarLine, circleCentre, rotatedBogey, i);
+                }
+                //updateRelCoords(bogies); //reformat to use per bogey
+                
             }            
             lastNow = now;
         }
@@ -117,64 +163,68 @@ public class FormatRadar extends Format{
   }
   
   //blip bogies on radar
-  private void scanForBogies(Line radarLine, Point3D centrePoint, ArrayList<Point3D> bogies) {
-    Point3D bogey;
+  private void scanForBogies(Line radarLine, Point3D centrePoint, Point3D bogey, int bogeyIndex) {
+    double bogeyX = bogey.getX();
+    double bogeyY = bogey.getY();
+    
+    double radarVectorX = radarLine.getEndX() - centrePoint.getX();
+    double radarVectorY = radarLine.getEndY() - centrePoint.getY();
 
-    for (int i = 0; i < bogies.size(); i++) {
-      bogey = screenBogies.get(i);
-      double bogeyX = bogey.getX();
-      double bogeyY = bogey.getY();
+    double bogeyVectorX = bogeyX - centrePoint.getX();
+    double bogeyVectorY = bogeyY - centrePoint.getY();
+
+    double radarLength = Math.sqrt(radarVectorX * radarVectorX + radarVectorY * radarVectorY);
+    double bogeyLength = Math.sqrt(bogeyVectorX * bogeyVectorX + bogeyVectorY * bogeyVectorY);
+
+    if (bogeyLength > RADAR_RADIUS_PIXELS) {
+      return; //out of radar range
+    }
+
+    radarVectorX = radarVectorX / radarLength;
+    radarVectorY = radarVectorY / radarLength;
+    bogeyVectorX = bogeyVectorX / bogeyLength;
+    bogeyVectorY = bogeyVectorY / bogeyLength;
+
+    double dotProduct = radarVectorX * bogeyVectorX + radarVectorY * bogeyVectorY;
+
+    if (dotProduct > 0.995) {
+      if (bogeyIndex < activeBlips.size() && activeBlips.get(bogeyIndex) != null) {
+        return; //already on radar, prevents blurring
+      }
+      final Circle scannedBogey = new Circle(bogeyX, bogeyY, 5);
+      scannedBogey.setFill(Color.RED);
+      groupChildren.add(scannedBogey);
       
-      double radarVectorX = radarLine.getEndX() - centrePoint.getX();
-      double radarVectorY = radarLine.getEndY() - centrePoint.getY();
-
-      double bogeyVectorX = bogeyX - centrePoint.getX();
-      double bogeyVectorY = bogeyY - centrePoint.getY();
-
-      double radarLength = Math.sqrt(radarVectorX * radarVectorX + radarVectorY * radarVectorY);
-      double bogeyLength = Math.sqrt(bogeyVectorX * bogeyVectorX + bogeyVectorY * bogeyVectorY);
-
-      if (bogeyLength > RADAR_RADIUS_PIXELS) {
-        continue; //out of radar range
+      while (activeBlips.size() <= bogeyIndex) {
+        activeBlips.add(null);
       }
+      activeBlips.set(bogeyIndex, scannedBogey);
 
-      radarVectorX = radarVectorX / radarLength;
-      radarVectorY = radarVectorY / radarLength;
-      bogeyVectorX = bogeyVectorX / bogeyLength;
-      bogeyVectorY = bogeyVectorY / bogeyLength;
-
-      double dotProduct = radarVectorX * bogeyVectorX + radarVectorY * bogeyVectorY;
-
-      if (dotProduct > 0.995) {
-        final Circle scannedBogey = new Circle(bogeyX, bogeyY, 5);
-        scannedBogey.setFill(Color.RED);
-        groupChildren.add(scannedBogey);
-        
-        //fade out dots for a realistic "radar" effect
-        FadeTransition fade = new FadeTransition(Duration.seconds(1), scannedBogey);
-        fade.setFromValue(1.0);
-        fade.setToValue(0.0);
-        fade.setOnFinished(e -> groupChildren.remove(scannedBogey));
-        fade.play();
-      }
+      //fade out dots for a realistic "radar" effect
+      FadeTransition fade = new FadeTransition(Duration.seconds(1), scannedBogey);
+      fade.setFromValue(1.0);
+      fade.setToValue(0.0);
+      fade.setOnFinished(e -> {
+        groupChildren.remove(scannedBogey);
+        activeBlips.set(bogeyIndex, null);
+      });
+      fade.play();
     }
   }
 
-  private void updateRelCoords(ArrayList<Point3D> bogies){
+
+  private void updateRelCoords(ArrayList<Point3D> screenBogies){
     Point3D currentPos = aircraftData.getPos();
-    Point3D posChange = currentPos.subtract(previousAircraftPos);
-    
-    //scale coords to radar
-    Point3D scaledDelta = new Point3D(
-      posChange.getX() * SCALE_FACTOR,
-      posChange.getY() * SCALE_FACTOR,
-      posChange.getZ() * SCALE_FACTOR
-    );
-    
-    //moves bogies relative to aircraft
-    for (int i = 0; i < bogies.size(); i++) {
-      Point3D updatedBogey = screenBogies.get(i).add(scaledDelta);
-      screenBogies.set(i, updatedBogey);
+        
+    for (int i = 0; i < screenBogies.size(); i++) {
+      Point3D worldBogey = bogies.get(i);
+      Point3D relativePos = worldBogey.subtract(currentPos); 
+      Point3D screenPos = new Point3D( 
+        circleCentre.getX() + relativePos.getX() * SCALE_FACTOR, 
+        circleCentre.getY() - relativePos.getY() * SCALE_FACTOR, 
+        0.0 
+      ); 
+      screenBogies.set(i, screenPos); 
     }
     
     previousAircraftPos = currentPos;
