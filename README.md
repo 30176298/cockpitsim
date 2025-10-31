@@ -1,4 +1,9 @@
 # cockpitsim
+Testing:
+1. Test scripts may technically be anywhere but please restrict to src/main/resources. Example script 'test_001' provided here.
+2. Test scripts ran through the testing window will output to .log files in /display.
+3. Both '.test' and '.log' files are both just UTF-8 so can be read/written in any text editor.
+
 Developers:
 1. Install Maven
 2. Run from "/display" using "mvn clean javafx:run"

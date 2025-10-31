@@ -61,6 +61,22 @@ public class AircraftData{
   public Point3D getVel() {
     return vel;
   }
+  
+  public void setVel(Point3D newVel) {
+    vel = newVel;
+  }
+  
+  public void setRightVect(Point3D newRightVect) {
+    rightVect = newRightVect;
+  }
+  
+   public void setUpVect(Point3D newUpVect) {
+    upVect = newUpVect;
+  }
+  
+  public void setPos(Point3D newPos) {
+    pos = newPos;
+  }
 
   public double getHeading() {
     Point3D xyVel = new Point3D (vel.getX(), vel.getY(), 0.0);

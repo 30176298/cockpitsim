@@ -34,16 +34,15 @@ public class EnvData{
   public EnvData(CockpitSim parent) {
     this.parent = parent;
     this.bogies = parent.bogies;
-    //this.pos = parent.aircraftData.pos;
-    //this.vel = parent.aircraftData.vel;
-
-
+    
     startSimulation();
   }
 
   private void startSimulation() {
     //Debug
-    Text headingText = new Text(100, 100, "" + parent.aircraftData.getHeading());
+    
+    Text headingText = new Text(890, 585, "");
+    headingText.setViewOrder(-1.0);
     parent.groupChildren.add(headingText);
 
     Circle[] balloons = new Circle[bogies.size()];
@@ -64,10 +63,10 @@ public class EnvData{
 
           //Circular view window boundary
           double viewAngle = projectXYPlane(pos).angle(projectXYPlane(pos.add(vel)), projectXYPlane(thisBogey));
-          System.out.println("Range  " + i + " " + range);
+          //System.out.println("Range  " + i + " " + range);
           double balloonSize, balloonCentreX, balloonCentreY;
           Color balloonColour;
-          System.out.println("Angle " + viewAngle);
+          //System.out.println("Angle " + viewAngle);
           //Reject bogies outside of view
           boolean bogeyInFront = thisBogey.dotProduct(vel) > 0.0;
           if (bogeyInFront) {
@@ -85,7 +84,7 @@ public class EnvData{
 
           double heightDifference = thisBogey.getZ();
           balloonCentreY = CNST.AIM_POINT.getY() - (4 * heightDifference);
-          System.out.println("X  " + balloonCentreX);
+          //System.out.println("X  " + balloonCentreX);
           balloons[i].setRadius(balloonSize);
           balloons[i].setFill(balloonColour);
           balloons[i].setCenterX(balloonCentreX);
@@ -93,7 +92,8 @@ public class EnvData{
 
         }
         //Debug
-        headingText.setText("" + parent.aircraftData.getHeading());
+        //headingInt = (int)parent.aircraftData.getHeading();
+        headingText.setText("" + (int)parent.aircraftData.getHeading());
 
       }
     };

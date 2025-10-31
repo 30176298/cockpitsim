@@ -21,6 +21,16 @@
       <artifactId>javafx-controls</artifactId>
       <version>${javafx.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.janino</groupId>
+      <artifactId>janino</artifactId>
+      <version>3.1.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.janino</groupId>
+      <artifactId>commons-compiler</artifactId>
+      <version>3.1.6</version>
+    </dependency>
   </dependencies>
   
   <build>
@@ -34,6 +44,11 @@
         </configuration>
       </plugin>
     </plugins>
+    <resources>
+     <resource>
+       <directory>src/main/resources</directory>
+     </resource>
+   </resources>
   </build>
   
 </project>

@@ -47,21 +47,21 @@ public class FormatNav extends Format{
     keyPages[0].select();
         
     // Map code
-    try {
-      Image mapIcon = new Image(new FileInputStream("C:/Users/User/projects/cockpitsim/display/src/main/java/Usean_Topographical_Map.bmp"));
+    //try {
+      Image mapIcon = new Image("/Usean_Topographical_Map.bmp");
       ImageView mapView = new ImageView();
       mapView.setX(home.getX());
       mapView.setY(home.getY());
-      mapView.setViewport(new Rectangle2D(CNST.SCREEN_SIZE, CNST.SCREEN_SIZE, CNST.SCREEN_SIZE, CNST.SCREEN_SIZE));
+      mapView.setViewport(new Rectangle2D(home.getX(), home.getY(), CNST.SCREEN_SIZE, CNST.SCREEN_SIZE));
       mapView.setImage(mapIcon);
       groupChildren.add(mapView);
-    } catch (FileNotFoundException e) {
+    /*} catch (FileNotFoundException e) {
       Text errorText = new Text(home.getX() + 30, home.getY() + 157, "MAP NOT FOUND");
       errorText.setFont(new Font(20));
       errorText.setFill(Color.RED);
       groupChildren.add(errorText);
       e.printStackTrace();
-    }
+    }*/
     // Draw arrow polygon
     Point2D centre = new Point2D((home.getX() + CNST.SCREEN_SIZE / 2), (home.getY() + CNST.SCREEN_SIZE / 2));
     Polygon arrow = new Polygon();
