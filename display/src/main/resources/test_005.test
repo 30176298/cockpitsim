@@ -1,0 +1,20 @@
+P	Test 005 - Non-Functional Requirements
+P	This test is intended to be performed last to verify Non-Functional requirements:
+P	NFR_001
+P	NFR_002
+P	NFR_003
+P	NFR_004
+P	NFR_005
+P	NFR_006
+P	 
+E	import display.TestSystem; import display.AircraftData; host.parent.aircraftData.showFPS = true;
+PR	Confirm FPS readout (top-left) averages more than 30 (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import display.AircraftData; host.parent.aircraftData.showFPS = false;
+PR	Confirm controls used in the application are labelled and legible (GREEN - PASS, RED - FAIL)
+PR	Confirm no critical failures experienced during testing (GREEN - PASS, RED - FAIL)
+P	Confirm you have not encountered issues attempting to install
+PR	application on Windows 10 or newer (GREEN - PASS, RED - FAIL)
+PR	Confirm no input lag is detectable (GREEN - PASS, RED - FAIL)
+PR	Confirm Script testing system has adequately tested against requirements (GREEN - PASS, RED - FAIL)
+
+

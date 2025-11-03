@@ -30,6 +30,9 @@ public class CockpitSim extends Application {
   protected EnvData envData;
   protected FormatCompass compass;
   protected Rectangle ground;
+  public MHDD leftMHDD;
+  public MHDD centreMHDD;
+  public MHDD rightMHDD;
   
   //Test window
   protected Group testRoot = new Group();
@@ -81,9 +84,9 @@ public class CockpitSim extends Application {
     groupChildren.add(dashboard);
 
     //Create and add elements to scene tree
-    MHDD LeftMHDD = new MHDD(this, CNST.POS.LEFT);
-    MHDD CentreMHDD = new MHDD(this, CNST.POS.CENTRE);
-    MHDD RightMHDD = new MHDD(this, CNST.POS.RIGHT); 
+    leftMHDD = new MHDD(this, CNST.POS.LEFT);
+    centreMHDD = new MHDD(this, CNST.POS.CENTRE);
+    rightMHDD = new MHDD(this, CNST.POS.RIGHT); 
 
     //intialise compass
     compass = new FormatCompass(this);   

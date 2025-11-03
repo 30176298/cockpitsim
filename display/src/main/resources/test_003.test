@@ -1,0 +1,19 @@
+P	Test 003 - Dashboard and MHDDs
+P	This test is intended to verify dashboard and MHDD function as described in requirements:
+P	FR_001
+P	FR_002
+P	FR_003
+P	This test also verifies mouse interaction as described in requirements:
+P	FR_008
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.leftMHDD.selectFormat(CNST.FORMAT.BLANK); host.parent.centreMHDD.selectFormat(CNST.FORMAT.BLANK); host.parent.rightMHDD.selectFormat(CNST.FORMAT.BLANK);
+PR	Confirm Dashboard visible (GREEN - PASS, RED - FAIL)
+PR	Confirm 3 display screens with 4 buttons each visible (GREEN - PASS, RED - FAIL)
+PR	Confirm all displays show 'BLANK FORMAT' (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import display.CNST; host.parent.leftMHDD.selectFormat(CNST.FORMAT.RADAR); host.parent.centreMHDD.selectFormat(CNST.FORMAT.NAV); host.parent.rightMHDD.selectFormat(CNST.FORMAT.WEAPONS);
+PR	Confirm displays show LEFT - RADAR, CENTRE - NAV, RIGHT - WEAPONS (GREEN - PASS, RED - FAIL)
+PR	Press 'FORM MENU' button on all displays and confirm format menu displayed  (GREEN - PASS, RED - FAIL)
+PR	Select new format on all displays and confirm successful  (GREEN - PASS, RED - FAIL
+
+
+

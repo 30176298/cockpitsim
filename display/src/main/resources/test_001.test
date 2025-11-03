@@ -1,15 +1,19 @@
-P	Test 001 - Compass
-P	This test is intended to verify compass functionality as described in requirements:
-P	Example_Req_1
-P	Example_Req_2
+P	Test 001 - Compass and Heading Display
+P	This test is intended to verify compass and heading readout functionality as described in requirements:
+P	FR_006
+P	FR_007
 P	 
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(-1.0, 0.0, 0.0));
 PR	Confirm compass needle at 3 o'clock position (GREEN - PASS, RED - FAIL)
+PR	Confirm heading readout shows 270 (GREEN - PASS, RED - FAIL)
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, -1.0, 0.0));
 PR	Confirm compass needle at 6 o'clock position (GREEN - PASS, RED - FAIL)
+PR	Confirm heading readout shows 180 (GREEN - PASS, RED - FAIL)
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(1.0, 0.0, 0.0));
 PR	Confirm compass needle at 9 o'clock position (GREEN - PASS, RED - FAIL)
+PR	Confirm heading readout shows 90 (GREEN - PASS, RED - FAIL)
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, 1.0, 0.0));
 PR	Confirm compass needle at 12 o'clock position (GREEN - PASS, RED - FAIL)
+PR	Confirm heading readout shows 0 (GREEN - PASS, RED - FAIL)
 
 

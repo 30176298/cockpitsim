@@ -1,6 +1,6 @@
-P	Test 002 - Balloon display
+P	Test 002 - Balloon Rendering
 P	This test is intended to verify training balloon function as described in requirements:
-P	Example_Req_13
+P	FR_005
 P	 
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, 0.00001, 0.0));
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setRightVect(new Point3D(1.0, 0.0, 0.0));
@@ -17,8 +17,10 @@ E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraf
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setPos(new Point3D(2600, 3260, 0.0));
 PR	Confirm training balloon disappeared (GREEN - PASS, RED - FAIL)
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, 1.0, 0.0));
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setRightVect(new Point3D(1.0, 0.0, 0.0));
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setUpVect(new Point3D(0.0, 0.0, 1.0));
 E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setPos(new Point3D(0.0, 0.0, 0.0));
-P	Position and Velocity has been reset
+P	Position, Velocity, and Attitude have been reset
 
 
 
