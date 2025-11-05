@@ -22,9 +22,19 @@ public class FormatWeapons extends Format{
   private Text weaponText;
   private double weaponTextY;
 
+  // Keep instances of your weapons here
+   private Gun gun;
+   private Missile missile;
+   private Bomb bomb;
+
   public FormatWeapons(MHDD parent) {
     this.parent = parent;
     home = parent.home;
+
+  // Create weapon objects once
+   gun = new Gun("Gun", 10, 30, false);
+   missile = new Missile("Missile", 5, 10, true);
+   bomb = new Bomb("Bomb", 2, 5, 10);
     
     setUpKeys();
     setUpWeaponMenu();
@@ -48,31 +58,6 @@ public class FormatWeapons extends Format{
     setUpFormatMenu();
   }
 
-
-  // private void setupWeaponMenu() {
-  //   Text title = new Text(home.getX() + 60, home.getY() + 100, "SELECT WEAPON:");
-  //   title.setFont(new Font(20));
-  //   title.setFill(Color.WHITE);
-
-  //   Button gunBtn = new Button("Gun");
-  //   gunBtn.setLayoutX(home.getX() + 50);
-  //   gunBtn.setLayoutY(home.getY() + 140);
-
-  //   Button missileBtn = new Button("Missile");
-  //   missileBtn.setLayoutX(home.getX() + 120);
-  //   missileBtn.setLayoutY(home.getY() + 140);
-
-  //   Button bombBtn = new Button("Bomb");
-  //   bombBtn.setLayoutX(home.getX() + 220);
-  //   bombBtn.setLayoutY(home.getY() + 140);
-
-  //   gunBtn.setOnAction(e -> selectWeapon("Gun"));
-  //   missileBtn.setOnAction(e -> selectWeapon("Missile"));
-  //   bombBtn.setOnAction(e -> selectWeapon("Bomb"));
-
-  //   groupChildren.addAll(title, gunBtn, missileBtn, bombBtn);
-  // }
-
   protected void setUpWeaponMenu() {
     //keyPages[0] = new KeyPage(this, "FORMMENU", CNST.BLANK_LEGEND, CNST.BLANK_LEGEND, CNST.BLANK_LEGEND);
     keyPages[0] = new KeyPage(this, "FORMMENU", "GUN     ", "MISSILE ", "BOMB    ");
@@ -86,31 +71,25 @@ public class FormatWeapons extends Format{
     keyPages[0].keys[0].setAction(selectFormatMenuReleased);
 
     //Create logic for GUN format selection
-    EventHandler selectGunFormatReleased = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {  
+        EventHandler<MouseEvent> selectGunFormatReleased = event -> {
         weaponText.setY(weaponTextY);
-        weaponText.setText("AMMO COUNT : 10\nMAX AMMO : 30");
-      }
+        weaponText.setText(gun.getWeaponInfo());
     };
     keyPages[0].keys[1].setAction(selectGunFormatReleased);
     
     //Create logic for NAV format selection
-    EventHandler selectNavFormatReleased = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
+    EventHandler<MouseEvent> selectMissileFormatReleased = event -> {
         weaponText.setY(weaponTextY - 90);
-        weaponText.setText("GUIDANCE TYPE : \nUNKNOWN\nLOCK TIME : 30\nTARGET LOCKED : \nFALSE");
-      }
+        weaponText.setText(missile.getWeaponInfo()); 
     };
-    keyPages[0].keys[2].setAction(selectNavFormatReleased);
+    keyPages[0].keys[2].setAction(selectMissileFormatReleased);
     
     //Create logic for WEAPONS format selection
-    EventHandler selectWeaponsFormatReleased = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
+    EventHandler<MouseEvent> selectBombFormatReleased = event -> {
         weaponText.setY(weaponTextY - 90);
-        weaponText.setText("BLAST RADIUS : 10\nDETONATION MODE : \nREMOTE");
-      }
+        weaponText.setText(bomb.getWeaponInfo());
     };
-    keyPages[0].keys[3].setAction(selectWeaponsFormatReleased);
+    keyPages[0].keys[3].setAction(selectBombFormatReleased);
     
   }
 }
