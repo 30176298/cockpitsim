@@ -34,14 +34,14 @@ public class FormatRadar extends Format{
   private Point3D circleCentre;
   private long lastNow = 0;
   private long deltaTime = 0;
-  Text blankText = new Text();
-  private ArrayList<Point3D> bogies;
-  private ArrayList<Point3D> screenBogies = new ArrayList<Point3D>();
+  private Text blankText = new Text();
+  private ArrayList<Point3D> bogies; //actual bogies
+  private ArrayList<Point3D> screenBogies = new ArrayList<Point3D>(); //bogies shown on radar
   private AircraftData aircraftData;
   private Point3D previousAircraftPos;
   private ArrayList<Circle> activeBlips = new ArrayList<Circle>();
   
-  //radar scaling consts
+  //radar scaling consts 
   private final double RADAR_RANGE_METERS = 5000.0;
   private final double RADAR_RADIUS_PIXELS = 115.0;
   private final double SCALE_FACTOR = RADAR_RADIUS_PIXELS / RADAR_RANGE_METERS;
@@ -60,6 +60,7 @@ public class FormatRadar extends Format{
       0
     );
 
+    //scale bogies to screenbogies
     for (int i = 0; i < bogies.size(); i++) {
       Point3D worldBogey = bogies.get(i);
       Point3D relativePos = worldBogey.subtract(previousAircraftPos);
@@ -73,7 +74,6 @@ public class FormatRadar extends Format{
     
     setUpKeys();
     
-    //set Page 0 as active page
     keyPages[0].select();
     
     //create radar display
@@ -106,7 +106,6 @@ public class FormatRadar extends Format{
                 double deltaSeconds = deltaTime / 1_000_000_000.0;
                 currentAngle += radarRotationSpeed * deltaSeconds;
                 
-                //bogies = parent.parent.getBogies();
 
                 if (currentAngle > Math.PI * 2) {
                     currentAngle -= Math.PI * 2;
@@ -120,7 +119,7 @@ public class FormatRadar extends Format{
 
                 updateRelCoords(screenBogies);
 
-                // Get aircraft heading for rotation using Point3D.angle()
+                //find aircraft heading
                 Point3D velocity = aircraftData.getVel();
                 Point3D xyVel = new Point3D(velocity.getX(), velocity.getY(), 0.0);
                 Point3D north = CNST.NORTH;
@@ -133,11 +132,11 @@ public class FormatRadar extends Format{
                 for (int i = 0; i < screenBogies.size(); i++) {
                   Point3D bogey = screenBogies.get(i);
                   
-                  // Get position relative to radar center
+                  //pos relative to radar centre
                   double relX = bogey.getX() - circleCentre.getX();
                   double relY = bogey.getY() - circleCentre.getY();
                   
-                  // Rotate around radar center based on aircraft heading
+                  //rotate about radarcentre depending on heading
                   double rotatedX = relX * Math.cos(-heading) - relY * Math.sin(-heading);
                   double rotatedY = relX * Math.sin(-heading) + relY * Math.cos(-heading);
                   
@@ -149,7 +148,6 @@ public class FormatRadar extends Format{
                   
                   scanForBogies(radarLine, circleCentre, rotatedBogey, i);
                 }
-                //updateRelCoords(bogies); //reformat to use per bogey
                 
             }            
             lastNow = now;
@@ -158,7 +156,7 @@ public class FormatRadar extends Format{
     rotationTimer.start();
   }
   
-  private void setUpKeys() {
+  protected void setUpKeys() {
     setUpFormatMenu();
   }
   
@@ -204,15 +202,17 @@ public class FormatRadar extends Format{
       FadeTransition fade = new FadeTransition(Duration.seconds(1), scannedBogey);
       fade.setFromValue(1.0);
       fade.setToValue(0.0);
-      fade.setOnFinished(e -> {
-        groupChildren.remove(scannedBogey);
-        activeBlips.set(bogeyIndex, null);
+      fade.setOnFinished(new EventHandler() {
+        @Override
+        public void handle(javafx.event.Event e) {
+          groupChildren.remove(scannedBogey);
+          activeBlips.set(bogeyIndex, null);
+        }
       });
       fade.play();
     }
   }
-
-
+  //update coords rel to bogies
   private void updateRelCoords(ArrayList<Point3D> screenBogies){
     Point3D currentPos = aircraftData.getPos();
         
@@ -228,5 +228,28 @@ public class FormatRadar extends Format{
     }
     
     previousAircraftPos = currentPos;
+  }
+  
+  //public getters
+  public double getCurrentAngle() {
+    return this.currentAngle;
+  }
+  
+  public Point3D getCircleCentre() {
+    return this.circleCentre;
+  }
+  
+  public double getRadarRange() {
+    return this.RADAR_RANGE_METERS;
+  }
+  
+  protected ArrayList<Circle> getActiveBlips() {
+    return this.activeBlips;
+  }
+  
+  public boolean isTargetInRange(Point3D target) {
+    if (target == null || circleCentre == null) return false;
+    double distance = target.distance(circleCentre);
+    return distance <= RADAR_RADIUS_PIXELS;
   }
 }
