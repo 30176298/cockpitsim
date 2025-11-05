@@ -45,7 +45,7 @@ public class FormatWeapons extends Format{
     //Create example text on display
     weaponText = new Text(home.getX() + 30, home.getY() + 140, "WEAPONS\nFORMAT");
     weaponTextY = home.getY() + 140;
-    weaponText.setFont(new Font(30));
+    weaponText.setFont(new Font(24));
     weaponText.setFill(Color.WHITE);
     groupChildren.add(weaponText);
     
