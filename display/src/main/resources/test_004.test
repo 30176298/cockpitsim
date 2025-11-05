@@ -1,0 +1,21 @@
+P	Test 004 - Horizon
+P	This test is intended to verify Ground/Sky rendering as described in requirements:
+P	FR_004
+P	This test also verifies keyboard interaction as described in requirements:
+P	FR_009
+P	 
+P	Keyboard controls are as follows
+P	LEFT - Roll Left
+P	RIGHT - Roll Right
+P	UP - Pitch Down
+P	DOWN - Pitch Up
+PR	Operate and confirm system responds to all key presses (GREEN - PASS, RED - FAIL)
+PR	Operate and confirm horizon responds to control input as described above (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, 1.0, 0.0));
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setRightVect(new Point3D(1.0, 0.0, 0.0));
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setUpVect(new Point3D(0.0, 0.0, 1.0));
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setPos(new Point3D(0.0, 0.0, 0.0));
+P	Position and Attitude have been reset
+
+
+

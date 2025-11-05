@@ -26,10 +26,19 @@ public class CockpitSim extends Application {
   protected Group root = new Group();
   protected ObservableList groupChildren = root.getChildren();
   protected Scene scene;
-  protected AircraftData aircraftData;
+  public AircraftData aircraftData;
   protected EnvData envData;
   protected FormatCompass compass;
   protected Rectangle ground;
+  public MHDD leftMHDD;
+  public MHDD centreMHDD;
+  public MHDD rightMHDD;
+  
+  //Test window
+  protected Group testRoot = new Group();
+  protected ObservableList testGroupChildren = testRoot.getChildren();
+  protected Scene testScene;
+  protected Stage testStage;
 
   //Enemy coordinate array
   protected ArrayList<Point3D> bogies = new ArrayList<Point3D>();
@@ -39,6 +48,7 @@ public class CockpitSim extends Application {
 
     //Create scene with root node
     scene = new Scene(root, 1024, 1024);
+    testScene = new Scene(testRoot, 768, 768);
 
     //temp vals until real bogies given
     Point3D radarCentre = new Point3D(0.0, 0.0, 0.0);
@@ -74,18 +84,30 @@ public class CockpitSim extends Application {
     groupChildren.add(dashboard);
 
     //Create and add elements to scene tree
-    MHDD LeftMHDD = new MHDD(this, CNST.POS.LEFT);
-    MHDD CentreMHDD = new MHDD(this, CNST.POS.CENTRE);
-    MHDD RightMHDD = new MHDD(this, CNST.POS.RIGHT); 
+    leftMHDD = new MHDD(this, CNST.POS.LEFT);
+    centreMHDD = new MHDD(this, CNST.POS.CENTRE);
+    rightMHDD = new MHDD(this, CNST.POS.RIGHT); 
 
     //intialise compass
     compass = new FormatCompass(this);   
+    
+    //Initialise Test System
+    TestSystem testSystem = new TestSystem(this);
 
     stage.setTitle("Cockpit Sim");
     scene.setFill(Color.LIGHTSKYBLUE);
     stage.setScene(scene);
     stage.show();
+    stage.setX(0);
     startUpdater();
+    
+    testStage = new Stage();
+    testStage.setTitle("Cockpit Sim - Testing");
+    testScene.setFill(Color.LIGHTGREY);
+    testStage.setScene(testScene);
+    testStage.show();
+    testStage.setX(1024);
+    
   }
 
   public static void main(String[] args) {

@@ -40,6 +40,9 @@ public class AircraftData{
   protected Translate groundTranslate = new Translate();
   
   private DebugView debugView = new DebugView(this);
+  public boolean showFPS = false;
+  private Text FPS = new Text(0, 20, "");
+  private int cycleCount = 0;
   
   public AircraftData(CockpitSim parent) {
     this.parent = parent;
@@ -50,7 +53,7 @@ public class AircraftData{
     upVect = vel.crossProduct(rightVect).multiply(-1.0);
     
     //debugView.setUpScene();
-    
+    parent.groupChildren.add(FPS);
     startSimulation();
   }
   
@@ -60,6 +63,22 @@ public class AircraftData{
 
   public Point3D getVel() {
     return vel;
+  }
+  
+  public void setVel(Point3D newVel) {
+    vel = newVel;
+  }
+  
+  public void setRightVect(Point3D newRightVect) {
+    rightVect = newRightVect;
+  }
+  
+   public void setUpVect(Point3D newUpVect) {
+    upVect = newUpVect;
+  }
+  
+  public void setPos(Point3D newPos) {
+    pos = newPos;
   }
 
   public double getHeading() {
@@ -74,6 +93,14 @@ public class AircraftData{
     AnimationTimer updater = new AnimationTimer() {
       public void handle(long now) {
         deltaTime = now - lastNow;
+        cycleCount = (cycleCount + 1) % 60;
+        //FPS Readout
+        if(showFPS && (cycleCount == 0)) {    //Only update FPS ~ once per second
+          FPS.setText("" + (int)(1_000_000_000 / deltaTime));
+        }
+        else if (!showFPS)  {
+          FPS.setText("");
+        }
         if (deltaTime > 0) {   
           //Calculate delta time
           deltaTime = Math.min(deltaTime, CNST.DELTA_TIME_CAP);
