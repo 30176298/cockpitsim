@@ -1,0 +1,10 @@
+P	Test 015 - Functional Requirements - Ensure that when switching between weapon types (Gun, Missile, Bomb), the on-screen text and button layout do not move, overlap, or disappear.
+P	This test is intended to verify Non-Functional requirements:
+P	NFR_022
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.rightMHDD.selectFormat(CNST.FORMAT.WEAPONS);
+PR	Confirm Weapons Format Displayed (GREEN - PASS, RED - FAIL)
+PR	Press 'GUN' button and confirm Gun information Displayed with consistent display (nothing moved) (GREEN - PASS, RED - FAIL)
+PR	Press 'MISSILE' button and confirm Missile information Displayed with consistent display (nothing moved) (GREEN - PASS, RED - FAIL)
+PR	Press 'BOMB' button and confirm Bomb information Displayed with consistent display (nothing moved) (GREEN - PASS, RED - FAIL)
+P   

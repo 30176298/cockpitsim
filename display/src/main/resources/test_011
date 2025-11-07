@@ -1,0 +1,10 @@
+P	Test 011 - Functional Requirements - Allow switching between weapon types
+P	This test is intended to verify Functional requirements:
+P	FR_018
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.rightMHDD.selectFormat(CNST.FORMAT.WEAPONS);
+PR	Confirm Weapons Format Displayed (GREEN - PASS, RED - FAIL)
+PR	Press 'GUN' button and confirm Gun information Displayed (GREEN - PASS, RED - FAIL)
+PR	Press 'MISSILE' button and confirm Missile information Displayed (GREEN - PASS, RED - FAIL)
+PR	Press 'BOMB' button and confirm Bomb information Displayed (GREEN - PASS, RED - FAIL)
+P   

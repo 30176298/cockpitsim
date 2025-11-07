@@ -1,0 +1,10 @@
+P	Test 013 - Functional Requirements - Respond within one second
+P	This test is intended to verify Functional requirements:
+P	FR_020
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.rightMHDD.selectFormat(CNST.FORMAT.WEAPONS);
+PR	Confirm Weapons Format Displayed (GREEN - PASS, RED - FAIL)
+PR	Press 'GUN' button and confirm Gun information Displayed in <1s (GREEN - PASS, RED - FAIL)
+PR	Press 'MISSILE' button and confirm Missile information Displayed in <1s (GREEN - PASS, RED - FAIL)
+PR	Press 'BOMB' button and confirm Bomb information Displayed in <1s (GREEN - PASS, RED - FAIL)
+P   

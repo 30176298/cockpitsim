@@ -1,0 +1,10 @@
+P	Test 014 - Functional Requirements - Provide clear and readable interface (White text on dark background)
+P	This test is intended to verify Non-Functional requirements:
+P	NFR_021
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.rightMHDD.selectFormat(CNST.FORMAT.WEAPONS);
+PR	Confirm Weapons Format Displayed (GREEN - PASS, RED - FAIL)
+PR	Press 'GUN' button and confirm Gun information Displayed with clear and readable text (GREEN - PASS, RED - FAIL)
+PR	Press 'MISSILE' button and confirm Missile information Displayed with clear and readable text (GREEN - PASS, RED - FAIL)
+PR	Press 'BOMB' button and confirm Bomb information Displayed with clear and readable text (GREEN - PASS, RED - FAIL)
+P   

@@ -21,6 +21,7 @@ public class FormatWeapons extends Format{
   
   public Text weaponText;
   public double weaponTextY;
+  public KeyPage[] weaponKeyPages;
 
   // Keep instances of your weapons here
    private Gun gun;
@@ -90,16 +91,8 @@ public class FormatWeapons extends Format{
         weaponText.setText(bomb.getWeaponInfo());
     };
     keyPages[0].keys[3].setAction(selectBombFormatReleased);
+
+    weaponKeyPages = keyPages;
     
-  }
-
-  public Group getGroup() {
-    Group group = new Group();
-    group.getChildren().addAll(groupChildren);
-    return group;
-  }
-
-  public KeyPage getActiveKeyPage() {
-    return keyPages[selectedKeyPage];
   }
 }

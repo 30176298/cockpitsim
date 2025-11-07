@@ -1,0 +1,7 @@
+P	Test 012 - Functional Requirements - System should allow all weapon options
+P	This test is intended to verify Functional requirements:
+P	FR_019
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.rightMHDD.selectFormat(CNST.FORMAT.BLANK);
+PR	Press 'WEAP' button and confirm Weapon options are displayed (GUN, MISSILE, BOMB) (GREEN - PASS, RED - FAIL)
+P   
