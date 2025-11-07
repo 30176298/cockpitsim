@@ -1,0 +1,13 @@
+P	Test 009 - Non-Functional Requirements for Radar
+P	This test is intended to be performed last to verify Non-Functional requirements for the radar:
+P	NFR_007
+P	NFR_008
+P	NFR_009
+P	NFR_010
+P	 
+E	import display.TestSystem; import display.CNST; import javafx.geometry.Point3D; import java.util.ArrayList; import java.util.Arrays; host.parent.setBogies(new ArrayList<>(Arrays.asList(new Point3D(0.0, -2000.0, 0.0), new Point3D(0.0, +1000.0, 0.0)))); host.parent.centreMHDD.selectFormat(CNST.FORMAT.RADAR);
+PR	Confirm you are able to clearly see bogey "blips" (GREEN - PASS, RED - FAIL)
+PR	Confirm confirm you are able to clearly see the rotating radar beam (GREEN - PASS, RED - FAIL)
+PR	Confirm the radar beam completes a full rotation in 1.33 seconds (GREEN - PASS, RED - FAIL)
+PR	Confirm the bogey blips fade 1 second after being highlighted (GREEN - PASS, RED - FAIL)
+PR	Confirm Script testing system has adequately tested against requirements (GREEN - PASS, RED - FAIL)

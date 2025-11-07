@@ -1,0 +1,12 @@
+P	Test 007 - Relative bogey updates
+P	This test is intended to verify relative bogey updating as described in requirements:
+P	FR_013
+P	FR_014
+P	 
+E	import display.TestSystem; import display.CNST; import javafx.geometry.Point3D; import java.util.ArrayList; import java.util.Arrays; host.parent.setBogies(new ArrayList<>(Arrays.asList(new Point3D(0.0, -2000.0, 0.0), new Point3D(0.0, +1000.0, 0.0)))); host.parent.centreMHDD.selectFormat(CNST.FORMAT.RADAR);
+PR	Confirm Radar display is formatted in centre cockpit screen with bogies visualised (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setPos(new Point3D(2010, 2230, 0.0));
+PR	Confirm bogey positions have updated relative to new aircraft position (bogies are now in southwest quadrant of radar) (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, -1.0, 0.0));
+PR	Confirm bogey positions have rotated 180 degrees about radar centre (GREEN - PASS, RED - FAIL)
+PR	Confirm Script testing system has adequately tested against requirements (GREEN - PASS, RED - FAIL)

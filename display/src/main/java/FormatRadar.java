@@ -41,10 +41,12 @@ public class FormatRadar extends Format{
   private Point3D previousAircraftPos;
   private ArrayList<Circle> activeBlips = new ArrayList<Circle>();
   
-  //radar scaling consts 
-  private final double RADAR_RANGE_METERS = 5000.0;
+  private double radar_range_metres = 2500.0;
+
   private final double RADAR_RADIUS_PIXELS = 115.0;
-  private final double SCALE_FACTOR = RADAR_RADIUS_PIXELS / RADAR_RANGE_METERS;
+  private double getScaleFactor() {
+    return RADAR_RADIUS_PIXELS / radar_range_metres;
+    }
   
   public FormatRadar(MHDD parent) {
     this.parent = parent;
@@ -65,8 +67,8 @@ public class FormatRadar extends Format{
       Point3D worldBogey = bogies.get(i);
       Point3D relativePos = worldBogey.subtract(previousAircraftPos);
       Point3D screenPos = new Point3D(
-        circleCentre.getX() + relativePos.getX() * SCALE_FACTOR,
-        circleCentre.getY() - relativePos.getY() * SCALE_FACTOR,
+        circleCentre.getX() + relativePos.getX() * getScaleFactor(),
+        circleCentre.getY() - relativePos.getY() * getScaleFactor(),
         0.0
       );
       screenBogies.add(screenPos);
@@ -220,8 +222,8 @@ public class FormatRadar extends Format{
       Point3D worldBogey = bogies.get(i);
       Point3D relativePos = worldBogey.subtract(currentPos); 
       Point3D screenPos = new Point3D( 
-        circleCentre.getX() + relativePos.getX() * SCALE_FACTOR, 
-        circleCentre.getY() - relativePos.getY() * SCALE_FACTOR, 
+        circleCentre.getX() + relativePos.getX() * getScaleFactor(), 
+        circleCentre.getY() - relativePos.getY() * getScaleFactor(), 
         0.0 
       ); 
       screenBogies.set(i, screenPos); 
@@ -240,7 +242,7 @@ public class FormatRadar extends Format{
   }
   
   public double getRadarRange() {
-    return this.RADAR_RANGE_METERS;
+    return this.radar_range_metres;
   }
   
   protected ArrayList<Circle> getActiveBlips() {
@@ -251,5 +253,35 @@ public class FormatRadar extends Format{
     if (target == null || circleCentre == null) return false;
     double distance = target.distance(circleCentre);
     return distance <= RADAR_RADIUS_PIXELS;
+  }
+
+  protected void setUpFormatMenu() {
+    keyPages[0] = new KeyPage(this, "FORMMENU", "ZOOM IN ", "        ", "ZOOM OUT");
+    
+    EventHandler selectFormatMenuReleased = new EventHandler<MouseEvent>() {
+      public void handle(MouseEvent event) {
+        selectPage(1);
+      }
+    };
+    keyPages[0].keys[0].setAction(selectFormatMenuReleased);
+
+    EventHandler selectZoomInReleased = new EventHandler<MouseEvent>() {
+      public void handle(MouseEvent event) {  
+        if (radar_range_metres > 1500) {
+          radar_range_metres -= 500;
+        }
+      }
+    };
+    keyPages[0].keys[1].setAction(selectZoomInReleased);
+    
+    EventHandler selectZoomOutReleased = new EventHandler<MouseEvent>() {
+      public void handle(MouseEvent event) {
+        if (radar_range_metres < 6000) {
+          radar_range_metres += 500;
+        }
+      }
+    };
+    keyPages[0].keys[3].setAction(selectZoomOutReleased);
+    
   }
 }

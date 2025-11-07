@@ -1,0 +1,8 @@
+P	Test 008 - Bogey fading and radar range limit
+P	This test is intended to verify the bogey fading and radar range limit as described in requirements:
+P	FR_015
+P	FR_016
+P	 
+E	import display.TestSystem; import display.CNST; import javafx.geometry.Point3D; import java.util.ArrayList; import java.util.Arrays; host.parent.setBogies(new ArrayList<>(Arrays.asList(new Point3D(0.0, -6000.0, 0.0), new Point3D(0.0, +1000.0, 0.0)))); host.parent.centreMHDD.selectFormat(CNST.FORMAT.RADAR);
+PR	Confirm only one bogey blip is visible as the other is out of range (GREEN - PASS, RED - FAIL)
+PR	Confirm Script testing system has adequately tested against requirements (GREEN - PASS, RED - FAIL)

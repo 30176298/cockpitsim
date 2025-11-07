@@ -1,0 +1,12 @@
+
+P	Test 006 - Radar rendering
+P	This test is intended to verify radar rendering as described in requirements:
+P	FR_010
+P	FR_011
+P	FR_012
+P	 
+E	import display.TestSystem; import display.CNST; import javafx.geometry.Point3D; import java.util.ArrayList; import java.util.Arrays; host.parent.setBogies(new ArrayList<>(Arrays.asList(new Point3D(0.0, -2000.0, 0.0), new Point3D(0.0, +1000.0, 0.0)))); host.parent.centreMHDD.selectFormat(CNST.FORMAT.RADAR);
+PR	Confirm Radar display is formatted in centre cockpit screen (GREEN - PASS, RED - FAIL)
+PR	Confirm radar beam is rotating about radar centre (GREEN - PASS, RED - FAIL)
+PR	Confirm red bogey "blips" are highlighted on radar (GREEN - PASS, RED - FAIL)
+PR	Confirm Script testing system has adequately tested against requirements (GREEN - PASS, RED - FAIL)

@@ -27,6 +27,7 @@ public class AircraftData{
   
   protected Point3D pos = new Point3D(0.0, 0.0, 0.0);
   protected Point3D vel;
+  protected double heading;
   protected Point3D rightVect;
   protected Point3D upVect;
   protected long lastNow = 0;
@@ -83,10 +84,11 @@ public class AircraftData{
 
   public double getHeading() {
     Point3D xyVel = new Point3D (vel.getX(), vel.getY(), 0.0);
-    double heading = xyVel.angle(CNST.NORTH);
+    heading = xyVel.angle(CNST.NORTH);
     if (xyVel.dotProduct(CNST.EAST) < 0.0) heading = 360 - heading;
     return heading;
   }
+
   
   private void startSimulation() {
     //Add updater to handle updating data each frame
