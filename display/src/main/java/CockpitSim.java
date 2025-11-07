@@ -113,6 +113,10 @@ public class CockpitSim extends Application {
   public static void main(String[] args) {
     launch();
   }
+
+  public void setBogies(ArrayList<Point3D> newBogies) {
+    bogies = newBogies;
+  }
   
   private void startUpdater() {
     AnimationTimer updater = new AnimationTimer() {
