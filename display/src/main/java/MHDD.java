@@ -62,4 +62,12 @@ public class MHDD extends DisplayObject{
     }
     format.select();
   }
+  
+  public Group getGroup() {
+    return new Group(groupChildren);
+  }
+
+  public Format getFormat() {
+      return format;
+  }
 }

@@ -1,0 +1,8 @@
+P	Test 010 - Functional Requirements - Display weapon information based on selection
+P	This test is intended to verify Functional requirements:
+P	FR_017
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.rightMHDD.selectFormat(CNST.FORMAT.WEAPONS);
+PR	Confirm Weapons Format Displayed (GREEN - PASS, RED - FAIL)
+PR	Press 'GUN' button and confirm Gun information Displayed (GREEN - PASS, RED - FAIL)
+P   

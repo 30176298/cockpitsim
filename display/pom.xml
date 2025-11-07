@@ -13,6 +13,7 @@
     <javafx.version>21</javafx.version>
     <javafx.maven.plugin.version>0.0.3</javafx.maven.plugin.version>
     <maven.compiler.release>24</maven.compiler.release>
+    <junit.version>5.10.0</junit.version>
   </properties>
 
   <dependencies>
@@ -31,6 +32,27 @@
       <artifactId>commons-compiler</artifactId>
       <version>3.1.6</version>
     </dependency>
+        
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-junit5</artifactId>
+      <version>4.0.16-alpha</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>openjfx-monocle</artifactId>
+      <version>jdk-11+26</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
   
   <build>
@@ -43,7 +65,26 @@
           <mainClass>display.CockpitSim</mainClass>
         </configuration>
       </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.1.2</version>
+        <configuration>
+          <forkCount>1</forkCount>
+          <reuseForks>true</reuseForks>
+          <argLine>
+            --add-opens javafx.graphics/javafx.stage=ALL-UNNAMED
+            --enable-native-access=ALL-UNNAMED
+            -Dtestfx.robot=glass
+            -Dtestfx.headless=false
+            -Dprism.order=sw
+            -Dprism.text=t2k
+          </argLine>
+        </configuration>
+      </plugin>
     </plugins>
+
     <resources>
      <resource>
        <directory>src/main/resources</directory>

@@ -19,8 +19,8 @@ import display.DisplayObject;
 
 public class FormatWeapons extends Format{
   
-  private Text weaponText;
-  private double weaponTextY;
+  public Text weaponText;
+  public double weaponTextY;
 
   // Keep instances of your weapons here
    private Gun gun;
@@ -77,19 +77,29 @@ public class FormatWeapons extends Format{
     };
     keyPages[0].keys[1].setAction(selectGunFormatReleased);
     
-    //Create logic for NAV format selection
+    //Create logic for MISSILE format selection
     EventHandler<MouseEvent> selectMissileFormatReleased = event -> {
         weaponText.setY(weaponTextY - 90);
         weaponText.setText(missile.getWeaponInfo()); 
     };
     keyPages[0].keys[2].setAction(selectMissileFormatReleased);
     
-    //Create logic for WEAPONS format selection
+    //Create logic for BOMB format selection
     EventHandler<MouseEvent> selectBombFormatReleased = event -> {
         weaponText.setY(weaponTextY - 90);
         weaponText.setText(bomb.getWeaponInfo());
     };
     keyPages[0].keys[3].setAction(selectBombFormatReleased);
     
+  }
+
+  public Group getGroup() {
+    Group group = new Group();
+    group.getChildren().addAll(groupChildren);
+    return group;
+  }
+
+  public KeyPage getActiveKeyPage() {
+    return keyPages[selectedKeyPage];
   }
 }
