@@ -267,7 +267,7 @@ public class FormatRadar extends Format{
 
     EventHandler selectZoomInReleased = new EventHandler<MouseEvent>() {
       public void handle(MouseEvent event) {  
-        if (radar_range_metres > 1500) {
+        if (radar_range_metres > 2500) {
           radar_range_metres -= 500;
         }
       }

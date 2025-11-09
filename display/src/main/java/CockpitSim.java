@@ -15,6 +15,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import display.CNST;
 import display.MHDD;
@@ -50,15 +51,13 @@ public class CockpitSim extends Application {
     scene = new Scene(root, 1024, 1024);
     testScene = new Scene(testRoot, 768, 768);
 
-    //temp vals until real bogies given
     Point3D radarCentre = new Point3D(0.0, 0.0, 0.0);
-    //now in metres
-    bogies.add(new Point3D((radarCentre.getX() + 2400), (radarCentre.getY() - 3300), 0));
-    bogies.add(new Point3D((radarCentre.getX() - 1200), (radarCentre.getY() + 3350), 0));
-    bogies.add(new Point3D((radarCentre.getX() + 2600), (radarCentre.getY() + 3250), 0));
-    bogies.add(new Point3D((radarCentre.getX() - 2300), (radarCentre.getY() + 2100), 0));
-    bogies.add(new Point3D((radarCentre.getX() + 4150), (radarCentre.getY() - 3600), 0));
-    bogies.add(new Point3D((radarCentre.getX() - 4300), (radarCentre.getY() - 2300), 0));
+    Random rand = new Random();
+    for (int i = 0; i < 6; i++) {
+        double x = radarCentre.getX() + (rand.nextInt(8001) - 4000); //6 bogies up to 4000m away in the x and y directions
+        double y = radarCentre.getY() + (rand.nextInt(8001) - 4000);
+        bogies.add(new Point3D(x, y, 0));
+    }
 
     //Ground simulation
     ground = new Rectangle(-512.0,  CNST.AIM_POINT.getY(), 2048.0, 2048.0);
