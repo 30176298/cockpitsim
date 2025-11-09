@@ -283,5 +283,27 @@ public class FormatRadar extends Format{
     };
     keyPages[0].keys[3].setAction(selectZoomOutReleased);
     
+    // Format selection menu page
+    keyPages[1] = new KeyPage(this, "BLANK   ", "NAV     ", "WPN     ", "RADAR   ");
+    
+    EventHandler<MouseEvent> selectBlankFormatReleased = event -> {
+        parent.selectFormat(CNST.FORMAT.BLANK);
+    };
+    keyPages[1].keys[0].setAction(selectBlankFormatReleased);
+    
+    EventHandler<MouseEvent> selectNavFormatReleased = event -> {
+        parent.selectFormat(CNST.FORMAT.NAV);
+    };
+    keyPages[1].keys[1].setAction(selectNavFormatReleased);
+    
+    EventHandler<MouseEvent> selectWpnFormatReleased = event -> {
+        parent.selectFormat(CNST.FORMAT.WEAPONS);
+    };
+    keyPages[1].keys[2].setAction(selectWpnFormatReleased);
+    
+    EventHandler<MouseEvent> selectRadarFormatReleased = event -> {
+        parent.selectFormat(CNST.FORMAT.RADAR);
+    };
+    keyPages[1].keys[3].setAction(selectRadarFormatReleased);
   }
 }
