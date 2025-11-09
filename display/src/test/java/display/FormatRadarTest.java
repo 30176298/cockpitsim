@@ -60,29 +60,6 @@ public class FormatRadarTest extends ApplicationTest {
         assertNotEquals(initialAngle, newAngle);
     }
 
-    @Test //NFR_009: Radar beam completes rotation in 1.33 seconds
-    public void testRadarBeamSpeed() throws Exception {
-        double startAngle = radar.getCurrentAngle();
-        long startTime = System.currentTimeMillis();
-        
-        Thread.sleep(500);
-        WaitForAsyncUtils.waitForFxEvents();
-        
-        double endAngle = radar.getCurrentAngle();
-        long endTime = System.currentTimeMillis();
-        
-        double angleDelta = endAngle - startAngle;
-        if (angleDelta < 0) angleDelta += Math.PI * 2;
-        
-        double timeDelta = (endTime - startTime) / 1000.0;
-        double rotationSpeed = angleDelta / timeDelta;
-        
-        double expectedSpeed = Math.toRadians(270);
-        double tolerance = Math.toRadians(30);
-        
-        assertTrue(Math.abs(rotationSpeed - expectedSpeed) < tolerance);
-    }
-
     @Test //FR_012: Bogey rendering system exists
     public void testBogeyRendering() throws Exception {
         Thread.sleep(1000);
@@ -90,6 +67,14 @@ public class FormatRadarTest extends ApplicationTest {
         
         ArrayList<Circle> blips = radar.getActiveBlips();
         assertNotNull(blips);
+    }
+
+    @Test //FR_014: Relative positional updates
+    public void testRelativePositionUpdates() throws Exception {
+        Thread.sleep(500);
+        WaitForAsyncUtils.waitForFxEvents();
+        
+        assertNotNull(radar.getCurrentAngle());
     }
 
     @Test //FR_015: Bogey fade effect
@@ -123,12 +108,27 @@ public class FormatRadarTest extends ApplicationTest {
         assertFalse(radar.isTargetInRange(farTarget));
     }
 
-    @Test //FR_014: Relative positional updates
-    public void testRelativePositionUpdates() throws Exception {
+    @Test //NFR_009: Radar beam completes rotation in 1.33 seconds
+    public void testRadarBeamSpeed() throws Exception {
+        double startAngle = radar.getCurrentAngle();
+        long startTime = System.currentTimeMillis();
+        
         Thread.sleep(500);
         WaitForAsyncUtils.waitForFxEvents();
         
-        assertNotNull(radar.getCurrentAngle());
+        double endAngle = radar.getCurrentAngle();
+        long endTime = System.currentTimeMillis();
+        
+        double angleDelta = endAngle - startAngle;
+        if (angleDelta < 0) angleDelta += Math.PI * 2;
+        
+        double timeDelta = (endTime - startTime) / 1000.0;
+        double rotationSpeed = angleDelta / timeDelta;
+        
+        double expectedSpeed = Math.toRadians(270);
+        double tolerance = Math.toRadians(30);
+        
+        assertTrue(Math.abs(rotationSpeed - expectedSpeed) < tolerance);
     }
 
     @Test
