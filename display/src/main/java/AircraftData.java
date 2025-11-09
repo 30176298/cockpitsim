@@ -25,7 +25,7 @@ import display.DebugView;
 
 public class AircraftData{
   
-  protected Point3D pos = new Point3D(0.0, 0.0, 0.0);
+  protected Point3D pos = new Point3D(200.0, -200.0, 0.0);
   protected Point3D vel;
   protected double heading;
   protected Point3D rightVect;
