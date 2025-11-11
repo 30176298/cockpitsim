@@ -1,0 +1,42 @@
+P	Test NAV_001 - Navigation Module Functional Requirements
+P	This test is intended to verify navigation module functionality as described in requirements:
+P	FR_020 - Nav map
+P	FR_021 - Real-time nav movement
+P	FR_022 - Zoom in feature
+P	FR_023 - Zoom out feature
+P	FR_024 - Aircraft heading alignment
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.centreMHDD.selectFormat(CNST.FORMAT.NAV);
+PR	Confirm Navigation module is displayed in centre MHDD (GREEN - PASS, RED - FAIL)
+PR	Confirm map image is visible within the display area (GREEN - PASS, RED - FAIL)
+PR	Confirm aircraft icon (red arrow) is visible in the center of the display (GREEN - PASS, RED - FAIL)
+P	 
+P	Testing FR_021 - Real-time nav movement
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setPos(new Point3D(200.0, -200.0, 0.0));
+P	Aircraft position set to (200, -200, 0)
+P	Wait a few seconds and observe the map
+PR	Use arrow keys to fly aircraft and confirm map moves proportionally to aircraft position (GREEN - PASS, RED - FAIL)
+PR	Confirm aircraft icon remains centered while map moves underneath (GREEN - PASS, RED - FAIL)
+P	 
+P	Testing FR_022 and FR_023 - Zoom features
+PR	Press 'ZOOM' button on navigation display (GREEN - PASS, RED - FAIL)
+PR	Confirm zoom menu appears with 'ZOOM IN' and 'ZOOM OUT' options (GREEN - PASS, RED - FAIL)
+PR	Press 'ZOOM IN' button multiple times and confirm map zooms in (GREEN - PASS, RED - FAIL)
+PR	Press 'ZOOM OUT' button multiple times and confirm map zooms out (GREEN - PASS, RED - FAIL)
+PR	Confirm aircraft icon remains centered during zoom operations (GREEN - PASS, RED - FAIL)
+P	 
+P	Testing FR_024 - Aircraft heading alignment
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, 1.0, 0.0));
+PR	Confirm aircraft is heading north (0 degrees) and map is oriented accordingly (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(1.0, 0.0, 0.0));
+PR	Confirm aircraft is heading east (90 degrees) and map has rotated accordingly (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, -1.0, 0.0));
+PR	Confirm aircraft is heading south (180 degrees) and map has rotated accordingly (GREEN - PASS, RED - FAIL)
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(-1.0, 0.0, 0.0));
+PR	Confirm aircraft is heading west (270 degrees) and map has rotated accordingly (GREEN - PASS, RED - FAIL)
+P	 
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, 1.0, 0.0));
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setPos(new Point3D(200.0, -200.0, 0.0));
+P	Aircraft position and velocity reset
+P	 
+PR	Confirm all navigation functional requirements have been adequately tested (GREEN - PASS, RED - FAIL)

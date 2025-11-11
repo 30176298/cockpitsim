@@ -1,0 +1,35 @@
+P	Test NAV_002 - Navigation Module Non-Functional Requirements
+P	This test is intended to verify navigation module non-functional requirements:
+P	NFR_014 - Map zoom limits
+P	NFR_015 - Icon display clarity
+P	NFR_016 - Zoom consistency
+P	 
+E	import display.TestSystem; import display.CNST; host.parent.centreMHDD.selectFormat(CNST.FORMAT.NAV);
+PR	Confirm Navigation module is displayed in centre MHDD (GREEN - PASS, RED - FAIL)
+P	 
+P	Testing NFR_014 - Map zoom limits of 0.25x and 4.0x
+PR	Press 'ZOOM' button to access zoom menu (GREEN - PASS, RED - FAIL)
+PR	Press 'ZOOM OUT' button repeatedly until zoom stops changing (GREEN - PASS, RED - FAIL)
+PR	Confirm zoom level stops at 0.25x (25% of original size) (GREEN - PASS, RED - FAIL)
+PR	Press 'ZOOM IN' button repeatedly until zoom stops changing (GREEN - PASS, RED - FAIL)
+PR	Confirm zoom level stops at 4.0x (400% of original size) (GREEN - PASS, RED - FAIL)
+PR	Confirm zoom limits prevent further zooming beyond these boundaries (GREEN - PASS, RED - FAIL)
+P	 
+P	Testing NFR_015 - Icon display clarity
+PR	Set zoom to minimum (0.25x) and confirm aircraft icon is visible and clear (GREEN - PASS, RED - FAIL)
+PR	Set zoom to maximum (4.0x) and confirm aircraft icon is visible and clear (GREEN - PASS, RED - FAIL)
+PR	Set zoom to default (1.0x) and confirm aircraft icon is visible and clear (GREEN - PASS, RED - FAIL)
+PR	Confirm the red arrow representing the aircraft is clearly distinguishable at all zoom levels (GREEN - PASS, RED - FAIL)
+P	 
+P	Testing NFR_016 - Zoom consistency
+PR	Set zoom to 2.0x (press ZOOM IN multiple times) (GREEN - PASS, RED - FAIL)
+PR	Use arrow keys to fly aircraft in various directions (GREEN - PASS, RED - FAIL)
+PR	Confirm zoom level remains constant at 2.0x while flying (GREEN - PASS, RED - FAIL)
+PR	Change heading by 90 degrees and confirm zoom level is unchanged (GREEN - PASS, RED - FAIL)
+PR	Confirm zoom induced by either zooming in or out varies by steady increments (0.25x per click) (GREEN - PASS, RED - FAIL)
+P	 
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setVel(new Point3D(0.0, 1.0, 0.0));
+E	import display.TestSystem; import javafx.geometry.Point3D; host.parent.aircraftData.setPos(new Point3D(200.0, -200.0, 0.0));
+P	Aircraft position and velocity reset
+P	 
+PR	Confirm all navigation non-functional requirements have been adequately tested (GREEN - PASS, RED - FAIL)
